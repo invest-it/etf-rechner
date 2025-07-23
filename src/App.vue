@@ -99,7 +99,6 @@
 <script setup>
 import { ref } from "vue";
 import VChart from "vue-echarts";
-import * as echarts from "echarts/core";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { LineChart } from "echarts/charts";
