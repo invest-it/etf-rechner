@@ -1,0 +1,72 @@
+<script setup>
+import { ref } from "vue";
+import NumberInput from "./NumberInput.vue";
+
+const emit = defineEmits(["submit"]);
+
+const capital = ref(5000);
+const monthly = ref(200);
+const returnRate = ref(2);
+const duration = ref(10);
+
+function handleSubmit(e) {
+  e.preventDefault();
+  emit("submit", {
+    capital: capital.value,
+    monthly: monthly.value,
+    returnRate: returnRate.value,
+    duration: duration.value,
+  });
+}
+</script>
+
+<template>
+  <div class="shadow-custom rounded-2xl py-6 max-w-md">
+    <div class="flex justify-between items-center mb-4 mx-4">
+      <div class="bg-accent text-primary font-semibold px-3 py-1 rounded-md">
+        ETF-Rechner
+      </div>
+      <label class="flex items-center cursor-pointer">
+        <span class="mr-2 font-medium text-primary">Easy</span>
+        <input
+          type="checkbox"
+          class="toggle rounded-lg toggle-primary"
+          checked
+        />
+      </label>
+    </div>
+
+    <form @submit="handleSubmit">
+      <fieldset class="fieldset w-full p-6">
+        <NumberInput
+          v-model="capital"
+          label="Startkapital (€)"
+          placeholder="5000€"
+        />
+        <NumberInput
+          v-model="monthly"
+          label="Monatliche Einzahlung (€)"
+          placeholder="200€"
+        />
+        <NumberInput
+          v-model="returnRate"
+          label="Erwartete jährliche Rendite (%)"
+          placeholder="2%"
+          step="0.1"
+        />
+        <NumberInput
+          v-model="duration"
+          label="Laufzeit (Jahre)"
+          placeholder="10 Jahre"
+        />
+
+        <button
+          type="submit"
+          class="w-full btn btn-neutral text-white font-semibold text-lg"
+        >
+          Berechnen
+        </button>
+      </fieldset>
+    </form>
+  </div>
+</template>
