@@ -12,10 +12,10 @@ const duration = ref(10);
 function handleSubmit(e) {
   e.preventDefault();
   emit("submit", {
-    capital: capital.value,
-    monthly: monthly.value,
-    returnRate: returnRate.value,
-    duration: duration.value,
+    capital: Number(capital.value),
+    monthly: Number(monthly.value),
+    returnRate: Number(returnRate.value),
+    duration: Number(duration.value),
   });
 }
 </script>

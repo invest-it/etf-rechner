@@ -17,21 +17,38 @@ const defaultForm = {
 };
 
 function calculateGrowth({ capital, monthly, returnRate, duration }) {
-  const rate = returnRate / 100;
+  const monthlyRate = returnRate / 100 / 12;
+  const months = duration * 12;
+
   let total = capital;
   let totalEinzahlung = capital;
   const result = [];
 
-  for (let year = 1; year <= duration; year++) {
-    totalEinzahlung += monthly * 12;
-    total = (total + monthly * 12) * (1 + rate);
+  for (let month = 1; month <= months; month++) {
+    total *= 1 + monthlyRate;
+    total += monthly;
+    totalEinzahlung += monthly;
 
-    result.push({
-      year: `${year}`,
-      einzahlung: Math.round(totalEinzahlung),
-      zinsen: Math.round(total - totalEinzahlung),
-      kontostand: Math.round(total),
-    });
+    if (month % 12 === 0) {
+      const year = month / 12;
+
+      const roundedTotal = parseFloat(total.toFixed(2));
+      const roundedEinzahlung = parseFloat(totalEinzahlung.toFixed(2));
+      const roundedZinsen = parseFloat((roundedTotal - roundedEinzahlung).toFixed(2));
+
+      result.push({
+        year: `${year}`,
+        einzahlung: roundedEinzahlung,
+        zinsen: roundedZinsen,
+        kontostand: roundedTotal,
+      });
+
+      console.log(`Year ${year}:`, {
+        total: roundedTotal,
+        totalEinzahlung: roundedEinzahlung,
+        zinsen: roundedZinsen,
+      });
+    }
   }
 
   chartData.value = result.map(({ year, einzahlung, zinsen }) => ({
@@ -42,11 +59,9 @@ function calculateGrowth({ capital, monthly, returnRate, duration }) {
 
   tableData.value = result.map(({ year, einzahlung, zinsen, kontostand }) => ({
     year,
-    einzahlung: einzahlung.toLocaleString("de-DE"),
+    einzahlung: einzahlung.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
     zinsen: zinsen.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
-    kontostand: kontostand.toLocaleString("de-DE", {
-      minimumFractionDigits: 2,
-    }),
+    kontostand: kontostand.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
   }));
 }
 

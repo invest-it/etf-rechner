@@ -35,7 +35,7 @@ const emit = defineEmits(["update:modelValue"]);
         'input input-bordered focus:outline-none focus:ring-0 focus:border-primary no-spinner',
         error ? 'input-error' : '',
       ]"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="$emit('update:modelValue', Number($event.target.value))"
     />
     <p v-if="error" class="text-error text-sm mt-1">{{ error }}</p>
   </div>
