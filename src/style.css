@@ -1,49 +1,12 @@
 @import "tailwindcss";
 @plugin "daisyui";
-
-@plugin "daisyui/theme" {
-   name: "light";
-   default: false;
-   prefersdark: false;
-   color-scheme: "light";
-   --color-base-100: #fffbf0;
-   --color-base-200: #f3f4f6;
-   --color-base-300: #e5e7eb;
-   --color-base-content: #000;
-   --color-primary: #97bc4e;
-   --color-primary-content: oklch(100% 0 0);
-   --color-secondary: #269e43;
-   --color-secondary-content: oklch(100% 0 0);
-   --color-accent: #96c73736;
-   --color-accent-content: #97bc4e;
-   --color-neutral: #97bc4e;
-   --color-neutral-content: oklch(98% 0.002 247.839);
-   --color-info: #80cbc4;
-   --color-info-content: oklch(12% 0.042 264.695);
-   --color-success: #269e43;
-   --color-success-content: oklch(97% 0.021 166.113);
-   --color-warning: #fb8c00;
-   --color-warning-content: oklch(98% 0.026 102.212);
-   --color-error: #af4345;
-   --color-error-content: oklch(96% 0.015 12.422);
-   --radius-selector: 0.25rem;
-   --radius-field: 0.25rem;
-   --radius-box: 0.25rem;
-   --size-selector: 0.25rem;
-   --size-field: 0.25rem;
-   --border: 1px;
-   --depth: 1;
-   --noise: 0;
-}
-
-
 @plugin "daisyui/theme" {
    name: "invest";
    default: false;
    prefersdark: false;
    color-scheme: "light";
    --color-base-100: #fff;
-   --color-base-200: #f3f4f6;
+   --color-base-200: #fffbf0;
    --color-base-300: #e5e7eb;
    --color-base-content: #000;
    --color-primary: #97bc4e;

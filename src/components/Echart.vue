@@ -67,7 +67,6 @@ const drawChart = () => {
     },
     yAxis: {
       type: "value",
-      name: "Geld (€)",
       nameLocation: "end",
       nameRotate: 0,
       nameGap: 30,
@@ -98,10 +97,12 @@ const drawChart = () => {
         data: einzahlungen,
         symbol: "circle",
         symbolSize: 10,
+        areaStyle: {},
+
         itemStyle: {
           color: "#97bc4e",
           borderColor: "#fff",
-          borderWidth: 2,
+          borderWidth: 1,
         },
         lineStyle: {
           color: "#97bc4e",
@@ -119,12 +120,14 @@ const drawChart = () => {
         stack: "total",
         smooth: true,
         data: zinsen,
+        areaStyle: {},
+
         symbol: "circle",
         symbolSize: 10,
         itemStyle: {
           color: "#269e43",
           borderColor: "#fff",
-          borderWidth: 2,
+          borderWidth: 1,
         },
         lineStyle: {
           color: "#269e43",

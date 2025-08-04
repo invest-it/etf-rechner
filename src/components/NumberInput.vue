@@ -23,7 +23,7 @@ const emit = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <div class="form-control w-full">
+  <div class="form-control py-1 w-full">
     <label v-if="label" class="label">
       <span class="label-text">{{ label }}</span>
     </label>

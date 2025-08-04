@@ -9,9 +9,9 @@ const props = defineProps({
 
 <template>
   <div class="overflow-x-auto shadow-custom rounded-2xl">
-    <table class="table bg-accent text-center rounded-box w-full">
+    <table class="table table-zebra bg-accent text-center rounded-box w-full">
       <thead>
-        <tr class="text-primary font-bold">
+        <tr class="text-primary bg-white font-bold">
           <th>Jahre</th>
           <th>Einzahlungen (€)</th>
           <th>Gewinn (€)</th>
