@@ -34,7 +34,7 @@ function calculateGrowth({ capital, monthly, returnRate, duration }) {
 
       const roundedTotal = parseFloat(total.toFixed(2));
       const roundedEinzahlung = parseFloat(totalEinzahlung.toFixed(2));
-      const roundedZinsen = parseFloat((roundedTotal - roundedEinzahlung).toFixed(2));
+      const roundedZinsen = parseFloat((roundedTotal - roundedEinzahlung).toFixed(2),);
 
       result.push({
         year: `${year}`,
@@ -59,9 +59,9 @@ function calculateGrowth({ capital, monthly, returnRate, duration }) {
 
   tableData.value = result.map(({ year, einzahlung, zinsen, kontostand }) => ({
     year,
-    einzahlung: einzahlung.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
+    einzahlung: einzahlung.toLocaleString("de-DE", {minimumFractionDigits: 2,}),
     zinsen: zinsen.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
-    kontostand: kontostand.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
+    kontostand: kontostand.toLocaleString("de-DE", {minimumFractionDigits: 2,}),
   }));
 }
 
@@ -84,30 +84,30 @@ watch(activeTab, async (newTab) => {
     <div class="w-full max-w-sm px-4 lg:px-0 lg:w-80">
       <EasyForm @submit="calculateGrowth" />
     </div>
-
     <div class="flex-1 min-w-[300px] w-full">
       <div class="tabs tabs-lift">
         <input
           type="radio"
           name="display_tab"
           class="tab"
+          style="--tab-border-color: #96c73736"
           aria-label="Diagramm"
           :checked="activeTab === 'Diagramm'"
           @change="activeTab = 'Diagramm'"
         />
-        <div class="tab-content bg-base-100 border-base-300 p-4 sm:p-6">
+        <div class="tab-content bg-base-100 border-accent py-4 shadow-custom">
           <EChart v-if="chartData.length" ref="chartRef" :data="chartData" />
         </div>
-
         <input
           type="radio"
           name="display_tab"
           class="tab"
+          style="--tab-border-color: #96c73736"
           aria-label="Tabelle"
           :checked="activeTab === 'Tabelle'"
           @change="activeTab = 'Tabelle'"
         />
-        <div class="tab-content bg-base-100 border-base-300 p-4 sm:p-6">
+        <div class="tab-content bg-base-100 border-accent shadow-custom">
           <DataTable v-if="tableData.length" :data="tableData" />
         </div>
       </div>

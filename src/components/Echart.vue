@@ -37,8 +37,7 @@ const drawChart = () => {
       textStyle: { color: "#000" },
       formatter: (params) => {
         const year = params[0].axisValue;
-        const ein =
-          params.find((p) => p.seriesName === "Einzahlungen")?.value || 0;
+        const ein = params.find((p) => p.seriesName === "Einzahlungen")?.value || 0;
         const zin = params.find((p) => p.seriesName === "Zinsen")?.value || 0;
         const total = ein + zin;
 
@@ -161,7 +160,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="chartRef"
-    class="shadow-custom rounded-2xl p-5 bg-white"
+    class="rounded-2xl mt-4 bg-white"
     style="width: 100%; height: 500px"
   ></div>
 </template>

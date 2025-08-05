@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Navbar from "./components/Navbar.vue";
 import Footer from "./components/Footer.vue";
 import EtfCalculator from "./components/EtfCalculator.vue";
@@ -11,6 +11,5 @@ import EtfCalculator from "./components/EtfCalculator.vue";
   >
     <EtfCalculator />
   </main>
-
   <Footer />
 </template>
