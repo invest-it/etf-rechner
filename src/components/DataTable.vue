@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="overflow-x-auto pt-4 rounded-2xl">
+  <div class="overflow-x-auto rounded-lg">
     <table class="table table-zebra bg-accent text-center rounded-box w-full">
       <thead>
         <tr class="text-primary bg-white font-bold">

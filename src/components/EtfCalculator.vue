@@ -42,12 +42,6 @@ function calculateGrowth({ capital, monthly, returnRate, duration }) {
         zinsen: roundedZinsen,
         kontostand: roundedTotal,
       });
-
-      console.log(`Year ${year}:`, {
-        total: roundedTotal,
-        totalEinzahlung: roundedEinzahlung,
-        zinsen: roundedZinsen,
-      });
     }
   }
 
@@ -78,38 +72,61 @@ watch(activeTab, async (newTab) => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col lg:flex-row gap-6 items-center lg:items-start h-full"
-  >
-    <div class="w-full max-w-sm px-4 lg:px-0 lg:w-80">
+  <div class="flex flex-col lg:flex-row gap-8 items-start h-full w-full">
+    <div class="w-full mx-auto max-w-sm px-4 lg:px-0 lg:w-80">
       <EasyForm @submit="calculateGrowth" />
     </div>
-    <div class="flex-1 min-w-[300px] w-full">
-      <div class="tabs tabs-lift">
-        <input
-          type="radio"
-          name="display_tab"
-          class="tab"
-          style="--tab-border-color: #96c73736"
-          aria-label="Diagramm"
-          :checked="activeTab === 'Diagramm'"
-          @change="activeTab = 'Diagramm'"
+
+    <div class="flex flex-1 flex-col md:flex-row-reverse w-full gap-4">
+      <ul
+        class="flex flex-row-reverse md:flex-col gap-2 space-y-2 text-sm font-medium text-black md:mb-0"
+      >
+        <li>
+          <a
+            href="#"
+            class="inline-flex items-center px-4 py-3 rounded-lg w-[124px] shadow-custom"
+            :class="[
+              activeTab === 'Diagramm'
+                ? 'text-primary bg-accent'
+                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200 ',
+            ]"
+            @click.prevent="activeTab = 'Diagramm'"
+          >
+            <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 3h4v18H3zM10 10h4v11h-4zM17 4h4v17h-4z" />
+            </svg>
+            Diagramm
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="inline-flex items-center px-4 py-3 shadow-custom rounded-lg w-[124px]"
+            :class="[
+              activeTab === 'Tabelle'
+                ? 'text-primary bg-accent'
+                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200 ',
+            ]"
+            @click.prevent="activeTab = 'Tabelle'"
+          >
+            <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4 4h16v2H4zm0 5h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+            </svg>
+            Tabelle
+          </a>
+        </li>
+      </ul>
+
+      <div class="flex-1 bg-base-100 rounded-2xl shadow-custom">
+        <EChart
+          v-if="activeTab === 'Diagramm' && chartData.length"
+          ref="chartRef"
+          :data="chartData"
         />
-        <div class="tab-content bg-base-100 border-accent py-4 shadow-custom">
-          <EChart v-if="chartData.length" ref="chartRef" :data="chartData" />
-        </div>
-        <input
-          type="radio"
-          name="display_tab"
-          class="tab"
-          style="--tab-border-color: #96c73736"
-          aria-label="Tabelle"
-          :checked="activeTab === 'Tabelle'"
-          @change="activeTab = 'Tabelle'"
+        <DataTable
+          v-if="activeTab === 'Tabelle' && tableData.length"
+          :data="tableData"
         />
-        <div class="tab-content bg-base-100 border-accent shadow-custom">
-          <DataTable v-if="tableData.length" :data="tableData" />
-        </div>
       </div>
     </div>
   </div>

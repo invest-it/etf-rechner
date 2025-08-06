@@ -4,7 +4,7 @@ import Logo from "../assets/footerLogo.svg";
 
 <template>
   <footer
-      class="footer sm:footer-horizontal bg-base-100 text-base-content p-10 border-t-1 border-t-primary"
+    class="footer sm:footer-horizontal bg-base-100 text-base-content p-10 border-t-1 border-t-primary"
   >
     <aside>
       <img :src="Logo" alt="Invest It" class="w-[78px]"/>
@@ -24,7 +24,7 @@ import Logo from "../assets/footerLogo.svg";
     </aside>
   </footer>
   <footer
-      class="footer bg-base-100 text-base-content border-base-300 border-t px-10 py-4"
+    class="footer bg-base-100 text-base-content border-base-300 border-t px-10 py-4"
   >
     <p class="mx-auto font-light text-xs">
       2025 Invest it! e.V. | Alle Rechte vorbehalten.
