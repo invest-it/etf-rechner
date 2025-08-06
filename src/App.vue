@@ -1,16 +1,15 @@
 <script setup lang="ts">
-
+import Navbar from "./components/Navbar.vue";
+import Footer from "./components/Footer.vue";
+import EtfCalculator from "./components/EtfCalculator.vue";
 </script>
 
 <template>
-  <button class="btn btn-neutral">Neutral</button>
-  <button class="btn btn-primary">Primary</button>
-  <button class="btn btn-secondary">Secondary</button>
-  <button class="btn btn-accent">Accent</button>
-  <button class="btn btn-info">Info</button>
-  <button class="btn btn-success">Success</button>
-  <button class="btn btn-warning">Warning</button>
-  <button class="btn btn-error">Error</button>
+  <Navbar />
+  <main
+    class="min-h-screen px-4 sm:px-10 w-full pt-10 sm:pt-20 pb-12 max-w-full overflow-hidden"
+  >
+    <EtfCalculator />
+  </main>
+  <Footer />
 </template>
-
-
