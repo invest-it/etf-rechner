@@ -7,7 +7,7 @@ import EtfCalculator from "./components/EtfCalculator.vue";
 <template>
   <Navbar />
   <main
-    class="min-h-screen px-4 sm:px-10 w-full pt-10 sm:pt-20 pb-12 max-w-full overflow-hidden"
+    class="min-h-screen px-4 sm:px-10 w-full pt-10 sm:pt-20 pb-12 2xl:max-w-3/4 mx-auto overflow-hidden"
   >
     <EtfCalculator />
   </main>
