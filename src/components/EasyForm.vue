@@ -21,7 +21,7 @@ function handleSubmit(e) {
 </script>
 
 <template>
-  <div class="shadow-custom rounded-2xl py-6 max-w-md">
+  <div class="shadow-custom rounded-xl py-6 max-w-md">
     <div class="flex justify-between items-center mb-4 mx-4">
       <div class="bg-accent text-primary font-semibold px-3 py-1 rounded-md">
         ETF-Rechner

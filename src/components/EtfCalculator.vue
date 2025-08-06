@@ -117,7 +117,7 @@ watch(activeTab, async (newTab) => {
         </li>
       </ul>
 
-      <div class="flex-1 bg-base-100 rounded-2xl shadow-custom">
+      <div class="flex-1 bg-base-100 rounded-xl shadow-custom">
         <EChart
           v-if="activeTab === 'Diagramm' && chartData.length"
           ref="chartRef"
