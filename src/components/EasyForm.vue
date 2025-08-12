@@ -42,22 +42,26 @@ function handleSubmit(e) {
           v-model="capital"
           label="Startkapital (€)"
           placeholder="5000€"
+          info="Das Startkapital ist der Geldbetrag, der zu Beginn eines Vorhabens bereits vorhanden ist und für erste Ausgaben verwendet wird."
         />
         <NumberInput
           v-model="monthly"
           label="Monatliche Einzahlung (€)"
           placeholder="200€"
+          info="Fester Geldbetrag, der jeden Monat zusätzlich zum Startkapital eingezahlt wird, um das Vorhaben mitzufinanzieren."
         />
         <NumberInput
           v-model="returnRate"
           label="Erwartete jährliche Rendite (%)"
           placeholder="2%"
           step="0.1"
+          info="Geschätzter prozentualer Gewinn pro Jahr, den deine Einzahlungen z.B. durch Zinsen oder Wertsteigerung erwirtschaften sollen."
         />
         <NumberInput
           v-model="duration"
           label="Laufzeit (Jahre)"
           placeholder="10 Jahre"
+          info="Zeitraum in Jahren, über den das Startkapital und die monatlichen Einzahlungen angelegt oder berechnet werden."
         />
 
         <button
