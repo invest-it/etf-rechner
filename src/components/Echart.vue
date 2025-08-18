@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import * as echarts from "echarts";
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   data: Array, // Format: [{ year: '1', einzahlung: 5000, zinsen: 300 }]
@@ -8,6 +9,7 @@ const props = defineProps({
 
 const chartRef = ref(null);
 let chartInstance = null;
+const { t, locale } = useI18n()
 
 const resizeChart = () => {
   if (chartInstance) {
@@ -37,26 +39,26 @@ const drawChart = () => {
       textStyle: { color: "#000" },
       formatter: (params) => {
         const year = params[0].axisValue;
-        const ein = params.find((p) => p.seriesName === "Einzahlungen")?.value || 0;
-        const zin = params.find((p) => p.seriesName === "Zinsen")?.value || 0;
+        const ein = params.find((p) => p.seriesId === 'deposits')?.value || 0;
+        const zin = params.find((p) => p.seriesId === 'interest')?.value || 0;
         const total = ein + zin;
 
         return `
-          <strong>Jahr ${year}</strong><br/>
-          Einzahlungen: ${ein.toLocaleString("de-DE")} €<br/>
-          Zinsen: ${zin.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €<br/>
-          <strong>Gesamtkapital: ${total.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €</strong>
+          <strong> ${year} ${t('years')} </strong><br/>
+          ${t('deposits')}: ${ein.toLocaleString('de-DE')} €<br/>
+          ${t('interest')}: ${zin.toLocaleString('de-DE', { minimumFractionDigits: 2 })} €<br/>
+          <strong>${t('totalCapital')}: ${total.toLocaleString('de-DE', { minimumFractionDigits: 2 })} €</strong>
         `;
       },
     },
     legend: {
-      data: ["Einzahlungen", "Zinsen"],
+      data: [t('deposits'), t('interest')],
       top: 10,
     },
     xAxis: {
       type: "category",
       data: years,
-      name: "Jahre",
+      name: t('years'),
       nameLocation: "middle",
       nameGap: 30,
       nameTextStyle: {
@@ -89,7 +91,8 @@ const drawChart = () => {
     },
     series: [
       {
-        name: "Einzahlungen",
+        id: 'deposits',
+        name: t('deposits'),
         type: "line",
         stack: "total",
         smooth: true,
@@ -114,7 +117,8 @@ const drawChart = () => {
         },
       },
       {
-        name: "Zinsen",
+        id: 'interest',
+        name: t('interest'),
         type: "line",
         stack: "total",
         smooth: true,
@@ -141,11 +145,14 @@ const drawChart = () => {
     ],
   };
 
-  chartInstance.setOption(option);
+  chartInstance.setOption(option, true);
   chartInstance.resize();
 };
 
 watch(() => props.data, drawChart, { deep: true });
+watch(locale, () => {
+  drawChart();
+});
 
 onMounted(() => {
   drawChart();

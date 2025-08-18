@@ -1,0 +1,19 @@
+{
+  "etf-rechner" : " ETF-Calculator",
+  "startCapital": "Initial capital",
+  "monthlyContribution": "Monthly deposit",
+  "expectedAnnualReturn": "Expected annual return",
+  "durationYears": "Duration (Years)",
+  "years": "Years",
+  "deposits": "Deposits ",
+  "profit": "Profit ",
+  "accountBalance": "Account balance ",
+  "chart": "Chart",
+  "table": "Table",
+  "interest": "Interest",
+  "totalCapital": "Total capital",
+  "easy": "Easy",
+  "advanced": "Advanced",
+  "calculate": "Calculate",
+  "swap" : "Swap"
+}

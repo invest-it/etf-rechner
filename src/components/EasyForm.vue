@@ -24,10 +24,12 @@ function handleSubmit(e) {
   <div class="shadow-custom rounded-xl py-6 max-w-md">
     <div class="flex justify-between items-center mb-4 mx-4">
       <div class="bg-accent text-primary font-semibold px-3 py-1 rounded-md">
-        ETF-Rechner
+        {{ $t("etf-rechner") }}
       </div>
       <label class="flex items-center cursor-pointer">
-        <span class="mr-2 font-medium text-primary">Easy</span>
+        <span class="mr-2 font-medium text-primary">
+          {{ $t("easy") }}
+        </span>
         <input
           type="checkbox"
           class="toggle rounded-lg toggle-primary"
@@ -40,26 +42,26 @@ function handleSubmit(e) {
       <fieldset class="fieldset w-full p-6">
         <NumberInput
           v-model="capital"
-          label="Startkapital (€)"
+          :label="`${$t('startCapital')} (€)`"
           placeholder="5000€"
           info="Das Startkapital ist der Geldbetrag, der zu Beginn eines Vorhabens bereits vorhanden ist und für erste Ausgaben verwendet wird."
         />
         <NumberInput
           v-model="monthly"
-          label="Monatliche Einzahlung (€)"
+          :label="`${$t('monthlyContribution')} (€)`"
           placeholder="200€"
           info="Fester Geldbetrag, der jeden Monat zusätzlich zum Startkapital eingezahlt wird, um das Vorhaben mitzufinanzieren."
         />
         <NumberInput
           v-model="returnRate"
-          label="Erwartete jährliche Rendite (%)"
+          :label="`${$t('expectedAnnualReturn')} %`"
           placeholder="2%"
           step="0.1"
           info="Geschätzter prozentualer Gewinn pro Jahr, den deine Einzahlungen z.B. durch Zinsen oder Wertsteigerung erwirtschaften sollen."
         />
         <NumberInput
           v-model="duration"
-          label="Laufzeit (Jahre)"
+          :label="$t('durationYears')"
           placeholder="10 Jahre"
           info="Zeitraum in Jahren, über den das Startkapital und die monatlichen Einzahlungen angelegt oder berechnet werden."
         />
@@ -68,7 +70,7 @@ function handleSubmit(e) {
           type="submit"
           class="w-full btn btn-neutral text-white font-semibold text-lg"
         >
-          Berechnen
+          {{$t("calculate")}}
         </button>
       </fieldset>
     </form>
