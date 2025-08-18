@@ -8,6 +8,7 @@ const chartData = ref([]);
 const tableData = ref([]);
 const activeTab = ref("Diagramm");
 const chartRef = ref(null);
+const tableRef = ref(null);
 
 const defaultForm = {
   capital: 5000,
@@ -34,7 +35,8 @@ function calculateGrowth({ capital, monthly, returnRate, duration }) {
 
       const roundedTotal = parseFloat(total.toFixed(2));
       const roundedEinzahlung = parseFloat(totalEinzahlung.toFixed(2));
-      const roundedZinsen = parseFloat((roundedTotal - roundedEinzahlung).toFixed(2),);
+      const roundedZinsen = parseFloat((roundedTotal - roundedEinzahlung).toFixed(2),
+      );
 
       result.push({
         year: `${year}`,
@@ -67,56 +69,60 @@ watch(activeTab, async (newTab) => {
   if (newTab === "Diagramm") {
     await nextTick();
     chartRef.value?.resizeChart();
+  } else if (newTab === "Tabelle") {
+    await nextTick();
+    tableRef.value?.updateCanScroll?.();
   }
 });
 </script>
 
 <template>
-  <div class="flex flex-col lg:flex-row gap-8 items-start h-full w-full">
+  <div
+    class="flex flex-col lg:flex-row gap-x-8 gap-y-4 items-start h-full w-full"
+  >
     <div class="w-full mx-auto max-w-sm px-4 lg:px-0 lg:w-80">
       <EasyForm @submit="calculateGrowth" />
     </div>
 
     <div class="flex flex-1 flex-col md:flex-row-reverse w-full gap-4">
       <ul
-        class="flex flex-row-reverse md:flex-col gap-2 space-y-2 text-sm font-medium text-black md:mb-0"
+        class="flex flex-row md:flex-col gap-2 mt-10 md:mt-0 text-sm font-medium text-black md:mb-0"
       >
-        <li>
+        <li class="flex-1/2 md:flex-0">
           <a
             href="#"
-            class="inline-flex items-center px-4 py-3 rounded-lg w-[124px] shadow-custom"
+            class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
             :class="[
               activeTab === 'Diagramm'
                 ? 'text-primary bg-accent'
-                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200 ',
+                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200',
             ]"
             @click.prevent="activeTab = 'Diagramm'"
           >
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path d="M3 3h4v18H3zM10 10h4v11h-4zM17 4h4v17h-4z" />
             </svg>
-            Diagramm
+            {{ $t("chart") }}
           </a>
         </li>
-        <li>
+        <li class="flex-1/2 md:flex-0">
           <a
             href="#"
-            class="inline-flex items-center px-4 py-3 shadow-custom rounded-lg w-[124px]"
+            class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
             :class="[
               activeTab === 'Tabelle'
                 ? 'text-primary bg-accent'
-                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200 ',
+                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200',
             ]"
             @click.prevent="activeTab = 'Tabelle'"
           >
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path d="M4 4h16v2H4zm0 5h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
             </svg>
-            Tabelle
+            {{ $t("table") }}
           </a>
         </li>
       </ul>
-
       <div class="flex-1 bg-base-100 rounded-xl shadow-custom">
         <EChart
           v-if="activeTab === 'Diagramm' && chartData.length"
@@ -125,9 +131,24 @@ watch(activeTab, async (newTab) => {
         />
         <DataTable
           v-if="activeTab === 'Tabelle' && tableData.length"
+          ref="tableRef"
           :data="tableData"
         />
       </div>
+    </div>
+    <div class="md:hidden w-full flex justify-end h-9">
+      <button
+        v-show="
+          activeTab === 'Tabelle' &&
+          tableRef?.canScroll &&
+          !tableRef?.scrolledLeft
+        "
+        type="button"
+        class="px-3 py-1.5 text-sm rounded-full shadow bg-primary text-primary-content"
+        @click="tableRef?.scrollRight()"
+      >
+        {{ $t("swap") }} →
+      </button>
     </div>
   </div>
 </template>
