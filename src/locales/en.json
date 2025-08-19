@@ -1,19 +1,40 @@
 {
-  "etf-rechner" : " ETF-Calculator",
-  "startCapital": "Initial capital",
-  "monthlyContribution": "Monthly deposit",
-  "expectedAnnualReturn": "Expected annual return",
-  "durationYears": "Duration (Years)",
+  "rechner": "Calculator",
   "years": "Years",
-  "deposits": "Deposits ",
-  "profit": "Profit ",
-  "accountBalance": "Account balance ",
+  "deposits": "Deposits",
   "chart": "Chart",
   "table": "Table",
   "interest": "Interest",
-  "totalCapital": "Total capital",
+  "accountBalance": "Account balance",
   "easy": "Easy",
   "advanced": "Advanced",
   "calculate": "Calculate",
-  "swap" : "Swap"
+  "swap": "Swap",
+  "summary": "In this calculation you initially deposited {initialDeposit} into your savings account. Each month you contributed {monthlyContribution}. If the annual return were {annualReturnPercent}, after {years} years you would have a total of {totalBalance} in your savings account. Of this, {totalContributions} would be your deposits and {totalGain} the profit.",
+  "tableInfo": {
+    "deposits": {
+      "title": "Deposits",
+      "description": "Amount you contribute in each year in addition to your initial capital."
+    },
+    "interest": {
+      "title": "Interest",
+      "description": "Return based on your savings balance accrued each year."
+    },
+    "balance": {
+      "title": "Balance",
+      "description": "Total wealth at the end of the year, consisting of initial capital, deposits, and accumulated gains."
+    }
+  },
+  "labels": {
+    "startCapital": "Initial capital",
+    "monthlyContribution": "Monthly deposit",
+    "expectedAnnualReturn": "Expected annual return",
+    "durationYears": "Duration (Years)"
+  },
+  "info": {
+    "startCapital": "The amount of money available at the beginning and used for initial expenses.",
+    "monthlyContribution": "A fixed amount added every month in addition to the initial capital to co-finance the plan.",
+    "expectedAnnualReturn": "Estimated yearly percentage gain that your deposits may earn (e.g., via interest or appreciation).",
+    "durationYears": "Time span in years over which the initial capital and monthly deposits are invested or calculated."
+  }
 }
