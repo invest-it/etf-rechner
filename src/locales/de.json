@@ -1,19 +1,40 @@
 {
-  "etf-rechner" : " ETF-Rechner",
-  "startCapital": "Startkapital",
-  "monthlyContribution": "Monatliche Einzahlung",
-  "expectedAnnualReturn": "Erwartete jährliche Rendite",
-  "durationYears": "Laufzeit (Jahre)",
+  "rechner": "Rechner",
   "years": "Jahre",
   "deposits": "Einzahlungen",
-  "profit": "Gewinn",
-  "accountBalance": "Kontostand",
   "chart": "Diagramm",
   "table": "Tabelle",
   "interest": "Zinsen",
-  "totalCapital": "Gesamtkapital",
+  "accountBalance": "Kontostand",
   "easy": "Einfach",
   "advanced": "Erweitert",
   "calculate": "Berechnen",
-  "swap" : " Wische"
+  "swap": "Wische",
+  "summary": "In dieser Berechnung hast Du am Anfang {initialDeposit} auf Dein Sparkonto eingezahlt. Monatlich hast Du dann {monthlyContribution} in Deinen Sparplan investiert. Wenn der jährliche Gewinn {annualReturnPercent} wäre, hättest Du nach {years} Jahren insgesamt {totalBalance} auf dem Sparkonto. Davon wären {totalContributions} Deine gesamten Einzahlungen und {totalGain} der Gewinn.",
+  "tableInfo": {
+    "deposits": {
+      "title": "Einzahlungen",
+      "description": "Betrag, den du im jeweiligen Jahr zusätzlich zum Startkapital einbringst."
+    },
+    "interest": {
+      "title": "Zinsen",
+      "description": "Renditebasierter Ertrag, der im jeweiligen Jahr auf das bis dahin angesparte Kapital entfällt."
+    },
+    "balance": {
+      "title": "Kontostand",
+      "description": "Gesamtvermögen am Ende des Jahres, bestehend aus Startkapital, Einzahlungen und kumulierten Gewinnen."
+    }
+  },
+  "labels": {
+    "startCapital": "Startkapital",
+    "monthlyContribution": "Monatliche Einzahlung",
+    "expectedAnnualReturn": "Erwartete Jahresrendite",
+    "durationYears": "Laufzeit (Jahre)"
+  },
+  "info": {
+    "startCapital": "Das Startkapital ist der Geldbetrag, der zu Beginn eines Vorhabens bereits vorhanden ist und für erste Ausgaben verwendet wird.",
+    "monthlyContribution": "Fester Geldbetrag, der jeden Monat zusätzlich zum Startkapital eingezahlt wird, um das Vorhaben mitzufinanzieren.",
+    "expectedAnnualReturn": "Geschätzter prozentualer Gewinn pro Jahr, den deine Einzahlungen z.B. durch Zinsen oder Wertsteigerung erwirtschaften sollen.",
+    "durationYears": "Zeitraum in Jahren, über den das Startkapital und die monatlichen Einzahlungen angelegt oder berechnet werden."
+  }
 }

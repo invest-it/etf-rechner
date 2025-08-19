@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import * as echarts from "echarts";
-import { useI18n } from 'vue-i18n'
+import { useI18n } from "vue-i18n";
 
 const props = defineProps({
   data: Array, // Format: [{ year: '1', einzahlung: 5000, zinsen: 300 }]
@@ -9,7 +9,7 @@ const props = defineProps({
 
 const chartRef = ref(null);
 let chartInstance = null;
-const { t, locale } = useI18n()
+const { t, locale } = useI18n();
 
 const resizeChart = () => {
   if (chartInstance) {
@@ -35,30 +35,31 @@ const drawChart = () => {
       trigger: "axis",
       backgroundColor: "#fff",
       borderColor: "#ccc",
+      confine: true,
       borderWidth: 1,
       textStyle: { color: "#000" },
       formatter: (params) => {
         const year = params[0].axisValue;
-        const ein = params.find((p) => p.seriesId === 'deposits')?.value || 0;
-        const zin = params.find((p) => p.seriesId === 'interest')?.value || 0;
+        const ein = params.find((p) => p.seriesId === "deposits")?.value || 0;
+        const zin = params.find((p) => p.seriesId === "interest")?.value || 0;
         const total = ein + zin;
 
         return `
-          <strong> ${year} ${t('years')} </strong><br/>
-          ${t('deposits')}: ${ein.toLocaleString('de-DE')} €<br/>
-          ${t('interest')}: ${zin.toLocaleString('de-DE', { minimumFractionDigits: 2 })} €<br/>
-          <strong>${t('totalCapital')}: ${total.toLocaleString('de-DE', { minimumFractionDigits: 2 })} €</strong>
+          <strong> ${year} ${t("years")} </strong><br/>
+          ${t("deposits")}: ${ein.toLocaleString("de-DE")} €<br/>
+          ${t("interest")}: ${zin.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €<br/>
+          <strong>${t("accountBalance")}: ${total.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €</strong>
         `;
       },
     },
     legend: {
-      data: [t('deposits'), t('interest')],
+      data: [t("deposits"), t("interest")],
       top: 10,
     },
     xAxis: {
       type: "category",
       data: years,
-      name: t('years'),
+      name: t("years"),
       nameLocation: "middle",
       nameGap: 30,
       nameTextStyle: {
@@ -91,8 +92,8 @@ const drawChart = () => {
     },
     series: [
       {
-        id: 'deposits',
-        name: t('deposits'),
+        id: "deposits",
+        name: t("deposits"),
         type: "line",
         stack: "total",
         smooth: true,
@@ -117,8 +118,8 @@ const drawChart = () => {
         },
       },
       {
-        id: 'interest',
-        name: t('interest'),
+        id: "interest",
+        name: t("interest"),
         type: "line",
         stack: "total",
         smooth: true,
@@ -165,9 +166,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    ref="chartRef"
-    class="rounded-xl pt-4 bg-white"
-    style="width: 100%; height: 500px"
-  ></div>
+  <div ref="chartRef" class="rounded-xl pt-4 bg-white shadow-custom" style="width: 100%; height: 513px"></div>
 </template>

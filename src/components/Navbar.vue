@@ -9,9 +9,7 @@ const toggleLanguage = () => {
 };
 </script>
 <template>
-  <div
-    class="navbar bg-base-100 shadow-custom h-[87px] px-10 flex justify-between"
-  >
+  <div class="navbar bg-base-100 shadow-custom h-[87px] px-10 flex justify-between">
     <img :src="Logo" alt="Invest It" class="w-[166px]" />
     <button class="ml-auto btn btn-sm bg-primary text-white" @click="toggleLanguage">
       {{ locale.toUpperCase() }}

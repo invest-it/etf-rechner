@@ -44,3 +44,7 @@
 .shadow-custom{
    box-shadow: 2px 5px 20px -5px rgba(0, 0, 0, 0.2);
 }
+.tooltip:before {
+    white-space: normal;
+    max-width: 250px;
+ }

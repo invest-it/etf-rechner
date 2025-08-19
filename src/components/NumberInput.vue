@@ -1,27 +1,17 @@
 <script setup>
 defineProps({
   modelValue: {
-    type: Number,
-    default: 0,
+    type: [Number, null],
+    default: null,
   },
   label: {
     type: String,
     default: "",
   },
-  placeholder: {
-    type: String,
-    default: "",
-  },
-
-  error: {
-    type: Boolean,
-    default: false,
-  },
-
   info: {
     type: String,
     default: "info",
-  }
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -30,26 +20,29 @@ const emit = defineEmits(["update:modelValue"]);
 <template>
   <div class="form-control py-1 w-full">
     <label v-if="label" class="label pb-1">
-      <span class="label-text">{{ label }}</span>    <span>
-    <div class="tooltip tooltip-right" :data-tip="info">
-      <button
-          class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full"
-      >
-         ?
-      </button>
-    </div>
-    </span>
+      <span class="label-text">{{ label }}</span>
+      <span>
+        <div class="tooltip sm:tooltip-right" :data-tip="info">
+          <button class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full">?</button>
+        </div>
+      </span>
     </label>
     <input
       type="number"
-      :placeholder="placeholder"
-      :value="modelValue"
+      inputmode="decimal"
+      step="any"
+      min="0"
+      required
+      :value="modelValue ?? ''"
       :class="[
-        'input input-bordered focus:outline-none focus:ring-0 focus:border-primary no-spinner',
+        'input input-bordered focus:outline-none font-light focus:ring-0 w-full focus:border-primary no-spinner text-[16px] sm:text-[14px]',
         error ? 'input-error' : '',
       ]"
-      @input="$emit('update:modelValue', Number($event.target.value))"
-    />
-    <p v-if="error" class="text-error text-sm mt-1">{{ error }}</p>
+      @input="
+        ($event) => {
+          const v = $event.target.value;
+          $emit('update:modelValue', v === '' ? null : Number(v));
+        }
+      " />
   </div>
 </template>
