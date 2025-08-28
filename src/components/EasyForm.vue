@@ -14,7 +14,7 @@ const returnRate = ref(3);
 const duration = ref(10);
 const isAdvanced = ref(false);
 const dynamicIncrease = ref(0);
-const tax = ref(26.375);
+const tax = ref(25);
 const depositType = ref("monatlich");
 
 const disableTax = ref(false);
@@ -79,7 +79,7 @@ watch(isAdvanced, () => {
           :label="`${t('input.dynamicIncrease')} (%)`"
           :info="t('info.dynamicIncrease')"
           :disabled="!isAdvanced" />
-        <button type="submit" class="w-full btn btn-neutral text-white font-semibold text-lg">
+        <button type="submit" class="w-full btn btn-primary text-white font-semibold text-lg">
           {{ t("calculate") }}
         </button>
       </fieldset>
