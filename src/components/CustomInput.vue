@@ -1,5 +1,8 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount, computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n();
 
 const props = defineProps({
   modelValue: { type: [Number, String], default: null },
@@ -61,7 +64,7 @@ function onInput(e) {
 }
 
 function applyPreset(idx) {
-  const opt = props.options[idx];
+  const opt = viewOptions.value[idx];
   if (!opt) return;
   selectedIndex.value = idx;
   localStr.value = String(opt.value);
@@ -78,10 +81,34 @@ function handleClickOutside(event) {
 onMounted(() => {
   document.addEventListener("click", handleClickOutside);
 });
-
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
 });
+
+const fallbackKeys = ["msciWorld", "sp500", "dax"];
+
+const formatPercent = (v) => (Number.isFinite(v) ? v.toLocaleString(locale.value, { maximumFractionDigits: 1 }) : v);
+
+const viewOptions = computed(() =>
+  props.options.map((opt, i) => {
+    const key = opt.i18nKey || opt.key || (i < fallbackKeys.length ? fallbackKeys[i] : `preset${i}`);
+
+    const name = t(`presets.${key}.name`, opt.header || "");
+    const description = t(`presets.${key}.description`, opt.description || "");
+
+    const header = t("presets.header", {
+      name,
+      avg: formatPercent(opt.value),
+    });
+
+    return {
+      ...opt,
+      header,
+      description,
+      __i18nKey: key,
+    };
+  }),
+);
 </script>
 
 <template>
@@ -90,7 +117,7 @@ onBeforeUnmount(() => {
       <span class="label-text">{{ label }}</span>
       <span>
         <div class="tooltip sm:tooltip-right" :data-tip="info">
-          <button type="button" class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full" aria-label="Mehr Info">
+          <button type="button" class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full" aria-label="More info">
             ?
           </button>
         </div>
@@ -121,14 +148,14 @@ onBeforeUnmount(() => {
           <div class="card-body">
             <ul role="listbox" class="flex flex-col gap-5">
               <li
-                v-for="(opt, i) in options"
-                :key="opt.header || opt.label || i"
+                v-for="(opt, i) in viewOptions"
+                :key="opt.__i18nKey || opt.header || i"
                 class="cursor-pointer hover:bg-base-200 rounded p-2"
                 role="option"
                 :aria-selected="selectedIndex === i"
                 @click="applyPreset(i)">
                 <h3 class="text-sm font-semibold text-primary leading-snug whitespace-normal break-words">
-                  {{ opt.header || opt.label }}
+                  {{ opt.header }}
                 </h3>
                 <p v-if="opt.description" class="text-xs text-black mt-1 whitespace-normal break-words">
                   {{ opt.description }}
