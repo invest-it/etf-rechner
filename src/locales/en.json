@@ -33,7 +33,7 @@
       "description": "Return based on your savings balance accrued each year."
     },
     "balance": {
-      "title": "Balance",
+      "title": "Account balance",
       "description": "Total wealth at the end of the year, consisting of initial capital, deposits, and accumulated gains."
     }
   },

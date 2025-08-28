@@ -23,14 +23,20 @@
       "withoutAmount": "Unter Berücksichtigung einer Zinssteuer von {taxPercent} sind die ausgewiesenen Gewinne nach Steuern."
     }
   },
+  "tableInfo": {
+    "deposits": {
+      "title": "Einzahlungen",
+      "description": "Betrag, den du regelmäßig auf das Sparkonto überweist."
+    },
     "interest": {
       "title": "Zinsen",
-      "description": "Renditebasierter Ertrag, der im jeweiligen Jahr auf das bis dahin angesparte Kapital entfällt."
+      "description": "Die 'Bezahlung', die du dafür erhältst, dass du das Geld auf einem Konto angelegt hast. Wenn du z.B. ein Bankkonto hast, kann die Bank das Geld für etwas anderes nutzen und bezahlt dich dafür in Zinsen. Die Zinsen sind dein Gewinn. Man nennt das auch 'Rendite.'"
     },
     "balance": {
       "title": "Kontostand",
-      "description": "Gesamtvermögen am Ende des Jahres, bestehend aus Startkapital, Einzahlungen und kumulierten Gewinnen."
-    },
+      "description": "So viel hast du am Ende des Jahres auf dem Konto. Der Kontostand berechnet sich aus deinem Startkapital, deinen Einzahlungen und allen Gewinnen aus Zinsen."
+    }
+  },
   "input": {
     "startCapital": "Startkapital",
     "contribution": "Einzahlung",

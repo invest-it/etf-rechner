@@ -80,72 +80,72 @@ const contributionLabel = computed(() => (istMonatlich.value ? t("ui.contributio
         <h2 class="card-title text-2xl">{{ $t("ui.title") }}</h2>
 
         <section class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          <div class="stat bg-base-200 rounded-box shadow-custom">
+          <div class="stat bg-base-200 rounded-box  shadow-sm">
             <div class="stat-title">{{ $t("labels.startCapital") }}</div>
             <div class="stat-value text-base">{{ euro(form.capital) }}</div>
           </div>
 
-          <div class="stat bg-base-200 px-0 sm:px-6 rounded-box shadow-custom">
+          <div class="stat bg-base-200 px-0 sm:px-6 rounded-box  shadow-sm">
             <div class="stat-title px-3 sm:px-0">{{ contributionLabel }}</div>
             <div class="stat-value text-base px-6 sm:px-0">{{ euro(form.monthly) }}</div>
           </div>
 
-          <div class="stat bg-base-200 rounded-box shadow-custom">
+          <div class="stat bg-base-200 rounded-box  shadow-sm">
             <div class="stat-title">{{ $t("labels.annualRate") }}</div>
             <div class="stat-value text-base">{{ form.returnRate.toLocaleString(locale) }}%</div>
           </div>
 
-          <div class="stat bg-base-200 rounded-box shadow-custom">
+          <div class="stat bg-base-200 rounded-box  shadow-sm">
             <div class="stat-title">{{ $t("labels.duration") }}</div>
             <div class="stat-value text-base">{{ form.duration }} {{ $t("ui.years") }} ({{ monate }})</div>
           </div>
 
-          <div class="stat bg-base-200 rounded-box shadow-custom">
+          <div class="stat bg-base-200 rounded-box  shadow-sm">
             <div class="stat-title">{{ $t("labels.tax") }}</div>
             <div class="stat-value text-base">{{ form.tax.toLocaleString(locale) }}%</div>
           </div>
 
-          <div class="stat bg-base-200 rounded-box shadow-custom">
+          <div class="stat bg-base-200 rounded-box  shadow-sm">
             <div class="stat-title">{{ $t("labels.dynamicPerYear") }}</div>
             <div class="stat-value text-base">{{ form.dynamicIncrease.toLocaleString(locale) }}%</div>
           </div>
         </section>
 
-        <section class="bg-accent p-4 rounded-box shadow-custom">
+        <section class="bg-accent p-4 rounded-box  shadow-sm">
           <p class="opacity-80">
             {{ $t("ui.methodIntro") }}
           </p>
         </section>
 
-        <section class="bg-base-200 p-4 rounded-box shadow-custom flex flex-col">
+        <section class="bg-base-200 p-4 rounded-box  shadow-sm flex flex-col">
           <h3 class="text-lg font-semibold">1) {{ $t("ui.monthlyRate") }}</h3>
           <p>{{ $t("ui.monthlyRateDesc") }}</p>
           <span class="badge badge-accent text-black h-full mt-4 p-2">
             <div v-html="fMonatszinsEinfach" />
           </span>
-          <span class="badge badge-accent text-black h-full mt-4 p-2">
+          <span class="badge badge-accent text-black h-full   mt-4 p-2">
             <div v-html="fMonatszinsEinfachNumbers" />
           </span>
         </section>
 
-        <section class="bg-base-200 p-4 rounded-box shadow-custom">
+        <section class="bg-base-200 p-4 rounded-box  shadow-sm">
           <h3 class="text-lg font-semibold">2) {{ $t("ui.interestGain") }}</h3>
           <p>{{ $t("ui.interestGainDesc") }}</p>
-          <span class="badge badge-accent text-black h-full my-2 p-2">
+          <span class="badge badge-accent text-black h-full  my-2 p-2">
             <div v-html="fZinsGewinn" />
           </span>
-          <p class="mt-2">
+          <p class="mt-2 space-y-1">
             {{ $t("ui.examplePrefix") }}
-            <span class="badge badge-primary">{{ euro(form.capital) }}</span>
+            <span class="badge badge-primary ">{{ euro(form.capital) }}</span>
             {{ $t("ui.exampleMiddle") }}
             <strong>
-              <span class="badge badge-primary">{{ pct(steuer > 0 ? r * (1 - steuer) : r) }}</span>
+              <span class="badge badge-primary ">{{ pct(steuer > 0 ? r * (1 - steuer) : r) }}</span>
             </strong>
             {{ $t("ui.exampleSuffix") }}
           </p>
         </section>
 
-        <section class="bg-base-200 p-4 rounded-box shadow-custom">
+        <section class="bg-base-200 p-4 rounded-box  shadow-sm">
           <h3 class="text-lg font-semibold">3) {{ $t("ui.monthStep") }}</h3>
           <p>
             {{ $t("ui.monthStepDesc") }}
@@ -155,10 +155,10 @@ const contributionLabel = computed(() => (istMonatlich.value ? t("ui.contributio
           </span>
         </section>
 
-        <section v-if="form.dynamicIncrease > 0" class="bg-base-200 p-4 rounded-box shadow-custom">
+        <section v-if="form.dynamicIncrease > 0" class="bg-base-200 p-4 rounded-box shadow-sm">
           <h3 class="text-lg font-semibold">4) {{ $t("ui.dynamic") }}</h3>
-          <p>{{ $t("ui.dynamicDesc") }}</p>
-          <span class="badge badge-accent text-black h-full my-2 p-2">
+          <p >{{ $t("ui.dynamicDesc") }}</p>
+          <span class="badge badge-accent text-black h-full my-2  p-2">
             <div v-html="fDynamik" />
           </span>
           <ul class="list-disc ml-6 mt-3 text-sm opacity-80">
@@ -172,15 +172,15 @@ const contributionLabel = computed(() => (istMonatlich.value ? t("ui.contributio
         <section>
           <h3 class="text-xl font-semibold mb-2">{{ $t("ui.result") }}</h3>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <div class="stat bg-base-200 rounded-box shadow-custom">
+            <div class="stat bg-base-200 rounded-box  shadow-sm">
               <div class="stat-title">{{ $t("ui.totalContributions") }}</div>
               <div class="stat-value text-lg">{{ euro(summary.totalContributions) }}</div>
             </div>
-            <div class="stat bg-base-200 rounded-box shadow-custom">
+            <div class="stat bg-base-200 rounded-box  shadow-sm">
               <div class="stat-title">{{ $t("ui.interestGainShort") }}</div>
               <div class="stat-value text-lg">{{ euro(summary.totalGain) }}</div>
             </div>
-            <div class="stat bg-base-200 rounded-box shadow-custom">
+            <div class="stat bg-base-200 rounded-box  shadow-sm">
               <div class="stat-title">{{ $t("ui.totalBalance") }}</div>
               <div class="stat-value text-lg">{{ euro(summary.totalBalance) }}</div>
             </div>
