@@ -48,8 +48,7 @@ defineExpose({ canScroll, scrolledLeft, scrollRight, updateCanScroll });
   <div ref="scroller" class="overflow-x-auto rounded-xl shadow-custom relative" @scroll="onScroll">
     <div
       v-if="canScroll && !scrolledLeft"
-      class="md:hidden pointer-events-none absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l from-base-100 to-transparent">
-    </div>
+      class="md:hidden pointer-events-none absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l from-base-100 to-transparent"></div>
 
     <table class="table rounded-xl table-pin-cols min-h-[513px] table-zebra bg-accent text-center rounded-box w-full">
       <thead>

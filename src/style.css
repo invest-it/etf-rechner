@@ -46,5 +46,40 @@
 }
 .tooltip:before {
     white-space: normal;
-    max-width: 250px;
+    max-width: 200px;
  }
+
+.input:disabled,
+.input[disabled] {
+   cursor: not-allowed;
+   border-color: var(--color-accent);
+   background-color: var(--color-accent);
+   color: var(--color-base-content);
+}
+
+.input:has(> input:disabled) {
+   cursor: not-allowed;
+   border-color: var(--color-base-300);
+   background-color: var(--color-base-300);
+   color: var(--color-base-content);
+}
+
+.btn {
+   &:is(:disabled, [disabled], .btn-disabled) {
+      &:not(.btn-link, .btn-ghost) {
+            background-color: var(--color-accent);
+            opacity: 60%;
+            color: var(--color-base-content);
+            border-color: var(--color-accent);
+            cursor: not-allowed;
+      }
+   }
+}
+
+.stat {
+   &:not(:last-child) {
+      @supports (color: color-mix(in lab, red, red)) {
+         border-inline-end: none;
+      }
+   }
+}

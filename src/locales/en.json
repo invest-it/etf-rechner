@@ -10,7 +10,19 @@
   "advanced": "Advanced",
   "calculate": "Calculate",
   "swap": "Swap",
-  "summary": "In this calculation you initially deposited {initialDeposit} into your savings account. Each month you contributed {monthlyContribution}. If the annual return were {annualReturnPercent}, after {years} years you would have a total of {totalBalance} in your savings account. Of this, {totalContributions} would be your deposits and {totalGain} the profit.",
+  "calculationMethod": "Method",
+  "summary": {
+    "base": "In this calculation you initially deposited {initialDeposit} into your savings account. {depositSentence} If the annual return were {annualReturnPercent}, after {years} years you would have a total of {totalBalance} in your savings account. Of this, {totalContributions} would be your deposits and {totalGain} the profit.",
+    "deposit": {
+      "monthly": "Each month you contributed {monthlyContribution}.",
+      "yearly": "Each year you contributed {monthlyContribution}."
+    },
+    "dynamicIncrease": "Additionally, you increase your contribution each year by {dynamicIncrease}.",
+    "tax": {
+      "withAmount": "Considering an interest tax of {taxPercent}, you paid a total of {totalTaxPaid} in taxes; the displayed gains are after tax.",
+      "withoutAmount": "Considering an interest tax of {taxPercent}, the displayed gains are after tax."
+    }
+  },
   "tableInfo": {
     "deposits": {
       "title": "Deposits",
@@ -25,16 +37,86 @@
       "description": "Total wealth at the end of the year, consisting of initial capital, deposits, and accumulated gains."
     }
   },
-  "labels": {
+  "input": {
     "startCapital": "Initial capital",
-    "monthlyContribution": "Monthly deposit",
+    "contribution": "Deposit",
     "expectedAnnualReturn": "Expected annual return",
-    "durationYears": "Duration (Years)"
+    "durationYears": "Duration (Years)",
+    "disableLabel": "Disable tax",
+    "tax": "Taxes",
+    "dynamicIncrease": "Dynamic increase"
   },
   "info": {
     "startCapital": "The amount of money available at the beginning and used for initial expenses.",
-    "monthlyContribution": "A fixed amount added every month in addition to the initial capital to co-finance the plan.",
+    "monthly": "A fixed amount added every month in addition to the initial capital to co-finance the plan.",
+    "yearly": "A fixed amount added every year in addition to the initial capital to co-finance the plan.",
     "expectedAnnualReturn": "Estimated yearly percentage gain that your deposits may earn (e.g., via interest or appreciation).",
-    "durationYears": "Time span in years over which the initial capital and monthly deposits are invested or calculated."
+    "durationYears": "Time span in years over which the initial capital and monthly deposits are invested or calculated.",
+    "dynamicIncrease": "The monthly contribution is automatically increased each year by a certain percentage, for example to save more or offset rising prices.",
+    "tax": "Part of the returns that must be paid according to legal requirements, reducing the final amount."
+  },
+  "depositType": {
+    "monthly": "monthly",
+    "yearly": "yearly"
+  },
+  "presets": {
+    "header": "{name} (average {avg}%)",
+    "msciWorld": {
+      "name": "MSCI World",
+      "description": "Broad index of developed markets (Europe, Americas, Asia)."
+    },
+    "sp500": {
+      "name": "S&P 500",
+      "description": "Tracks the performance of ~500 large U.S. companies."
+    },
+    "dax": {
+      "name": "DAX",
+      "description": "Index of the 40 largest and most liquid German companies."
+    }
+  },
+  "ui": {
+    "title": "ETF calculator – simple explanation",
+    "contributionPerMonth": "Contribution per month",
+    "contributionPerYear": "Contribution per year",
+    "years": "years",
+    "methodIntro": "We calculate month by month: first the interest on the current balance, then we add your contribution. If an interest tax applies, we subtract it right away. If you choose a dynamic increase, your contribution rises each year.",
+    "monthlyRate": "Monthly interest",
+    "monthlyRateDesc": "As a simple approximation, we take: annual rate divided by 12.",
+    "interestGain": "Interest gain",
+    "interestGainDesc": "The monthly interest gain is based on your current balance. If tax applies, we subtract a portion immediately.",
+    "examplePrefix": "Example: With",
+    "exampleMiddle": "balance, that’s about",
+    "exampleSuffix": "of that per month.",
+    "monthStep": "Monthly step",
+    "monthStepDesc": "We add in order: first the interest gain, then your contribution. For yearly contributions, it occurs only in month 12.",
+    "dynamic": "Dynamic (contribution increases yearly)",
+    "dynamicDesc": "The contribution increases each year by the specified percentage.",
+    "year": "Year",
+    "result": "Result",
+    "totalContributions": "Total contributions",
+    "interestGainShort": "Interest (gain)",
+    "totalBalance": "Total balance",
+    "roundingNote": "Values are rounded to 2 decimal places."
+  },
+  "labels": {
+    "startCapital": "Initial capital",
+    "annualRate": "Annual rate",
+    "duration": "Duration",
+    "tax": "Tax",
+    "taxShort": "Tax",
+    "dynamicPerYear": "Dynamic per year",
+    "dynamicShort": "Dynamic"
+  },
+  "calc": {
+    "monthlyRateSimple": "Monthly interest",
+    "annualRate": "Annual rate",
+    "interestGain": "Interest gain",
+    "balance": "Balance",
+    "monthlyRate": "Monthly interest",
+    "newBalance": "New balance",
+    "oldBalance": "Old balance",
+    "contribution": "Contribution",
+    "nextYearContribution": "Next year’s contribution",
+    "currentContribution": "Current contribution"
   }
 }
