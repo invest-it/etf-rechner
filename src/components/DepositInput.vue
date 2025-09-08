@@ -118,7 +118,11 @@ function onInput(e) {
           role="listbox"
           :tabindex="disabled ? -1 : 0">
           <li v-for="opt in options" :key="opt">
-            <a role="option" :aria-selected="selected === opt" class="flex justify-between font-semibold hover:bg-base-200" @click.prevent="select(opt)">
+            <a
+              role="option"
+              :aria-selected="selected === opt"
+              class="flex justify-between font-semibold hover:bg-base-200"
+              @click.prevent="select(opt)">
               <span>{{ labelOf(opt) }}</span>
               <span v-if="selected === opt">✓</span>
             </a>
