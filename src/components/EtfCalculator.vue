@@ -55,7 +55,7 @@ function calculateGrowth({ capital, monthly, returnRate, duration, depositType, 
       const taxAmount = interest * (tax / 100);
       total += interest - taxAmount;
       yearTax += taxAmount;
-      totalTax += taxAmount; // accumulate tax
+      totalTax += taxAmount;
     } else {
       total *= 1 + monthlyRate;
     }
@@ -141,7 +141,7 @@ watch(activeTab, async (newTab) => {
           <a
             href="#"
             class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
-            :class="[activeTab === 'Diagramm' ? 'text-primary bg-accent' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
+            :class="[activeTab === 'Diagramm' ? 'text-white bg-primary' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
             @click.prevent="activeTab = 'Diagramm'">
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path d="M3 3h4v18H3zM10 10h4v11h-4zM17 4h4v17h-4z" />
@@ -154,7 +154,7 @@ watch(activeTab, async (newTab) => {
           <a
             href="#"
             class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
-            :class="[activeTab === 'Tabelle' ? 'text-primary bg-accent' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
+            :class="[activeTab === 'Tabelle' ? 'text-white bg-primary' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
             @click.prevent="activeTab = 'Tabelle'">
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path d="M4 4h16v2H4zm0 5h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
@@ -167,7 +167,7 @@ watch(activeTab, async (newTab) => {
           <a
             href="#"
             class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
-            :class="[activeTab === 'Rechenweg' ? 'text-primary bg-accent' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
+            :class="[activeTab === 'Rechenweg' ? 'text-white bg-primary' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
             @click.prevent="activeTab = 'Rechenweg'">
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path

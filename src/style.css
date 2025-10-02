@@ -9,9 +9,9 @@
    --color-base-200: #fffbf0;
    --color-base-300: #e5e7eb;
    --color-base-content: #000;
-   --color-primary: #97bc4e;
+   --color-primary: #269e43;
    --color-primary-content: oklch(100% 0 0);
-   --color-secondary: #269e43;
+   --color-secondary: #97bc4e;
    --color-secondary-content: oklch(100% 0 0);
    --color-accent: #e9f3d8;
    --color-accent-content: #97bc4e;
@@ -47,6 +47,7 @@
 .tooltip:before {
     white-space: normal;
     max-width: 200px;
+   background: var(--color-primary);
  }
 
 .input:disabled,

@@ -44,7 +44,7 @@ watch(isAdvanced, () => {
 <template>
   <div class="shadow-custom rounded-xl py-6 max-w-md">
     <div class="flex justify-between items-center mb-4 mx-4">
-      <div class="bg-accent text-primary font-semibold px-3 py-1 rounded-md">
+      <div class="bg-primary text-white font-semibold px-3 py-1 rounded-md">
         {{ isAdvanced ? $t("advanced") : $t("easy") }}
       </div>
       <label class="flex items-center cursor-pointer">
