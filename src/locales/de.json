@@ -80,24 +80,28 @@
     "contributionPerMonth": "Einzahlung pro Monat",
     "contributionPerYear": "Einzahlung pro Jahr",
     "years": "Jahre",
-    "methodIntro": "Wir rechnen Monat für Monat: Erst kommt der Zins auf den aktuellen Kontostand, danach addieren wir deine Einzahlung. Falls eine Steuer auf Zinsen gilt, ziehen wir sie dabei direkt ab. Wenn du eine Dynamik wählst, steigt deine Einzahlung jedes Jahr.",
-    "monthlyRate": "Monatszins",
-    "monthlyRateDesc": "Als einfache Näherung nehmen wir: Jahreszins durch 12.",
-    "interestGain": "Zins-Gewinn",
-    "interestGainDesc": "Der monatliche Gewinn aus Zinsen basiert auf deinem aktuellen Kontostand. Mit Steuer ziehen wir einen Anteil gleich ab.",
+    "step": "Schritt",
+    "methodIntro": "So berechnest Du die Werte im ETF-Rechner",
+    "monthlyRate": "Monatlicher Zinssatz",
+    "monthlyRateDesc": "Um den monatlichen Zinssatz zu berechnen, teilst Du den jährlichen Zinssatz durch 12.",
+    "interestGain": "Monatlicher Gewinn aus Zinsen",
+    "interestGainDesc": "Dein monatlicher Gewinn aus Zinsen wird mithilfe Deines aktuellen Kontostands berechnet:",
     "examplePrefix": "Beispiel: Bei",
     "exampleMiddle": "Kontostand sind das etwa",
     "exampleSuffix": "davon pro Monat.",
-    "monthStep": "Monats-Schritt",
-    "monthStepDesc": "Wir addieren nacheinander: zuerst den Zins-Gewinn, dann deine Einzahlung. Bei jährlicher Einzahlung passiert die Einzahlung nur im Monat 12.",
-    "dynamic": "Dynamik (Einzahlung steigt jährlich)",
-    "dynamicDesc": "Die Einzahlung erhöht sich jedes Jahr um den angegebenen Prozentsatz.",
+    "monthStep": "Neuer Kontostand",
+    "monthStepDesc": "Dein neuer Kontostand ist die Summe aus dem alten Kontostand und dem Zins-Gewinn:",
+    "dynamic": "Neue Einzahlung und monatlicher Effekt",
+    "dynamicDesc": "Im ETF-Rechner kannst Du verschiedene Einstellungen wählen, z.B. den direkten Abzug von Steuern oder in welchem Rhythmus Du die Einzahlungen tätigen möchtest. All das hat Einfluss auf die finalen Ergebnisse",
     "year": "Jahr",
     "result": "Ergebnis",
     "totalContributions": "Gesamteinzahlung",
     "interestGainShort": "Zinsen (Gewinn)",
     "totalBalance": "Kontostand gesamt",
-    "roundingNote": "Werte sind auf 2 Nachkommastellen gerundet."
+    "roundingNote": "Werte sind auf 2 Nachkommastellen gerundet.",
+    "inputsSummaryIntro": "Für Deine im ETF-Rechner eingegebenen Werte wäre das:",
+    "approxValueNote": "(Das ist ein Näherungswert.)"
+
   },
   "labels": {
     "startCapital": "Startkapital",
@@ -109,15 +113,16 @@
     "dynamicShort": "Dynamik"
   },
   "calc": {
-    "monthlyRateSimple": "Monatszins",
-    "annualRate": "Jahreszins",
-    "interestGain": "Zins-Gewinn",
+    "monthlyRateSimple": "monatlicher Zinssatz",
+    "annualRate": "jährlicher Zinssatz",
+    "interestGain": "monatlicher Gewinn aus Zinsen ",
     "balance": "Kontostand",
-    "monthlyRate": "Monatszins",
-    "newBalance": "Neuer Kontostand",
-    "oldBalance": "Alter Kontostand",
+    "monthlyRate": "monatlicher Zinssatz",
+    "newBalance": "neuer Kontostand",
+    "oldBalance": "alter Kontostand",
     "contribution": "Einzahlung",
     "nextYearContribution": "Einzahlung nächstes Jahr",
-    "currentContribution": "Einzahlung jetzt"
+    "currentContribution": "Einzahlung jetzt",
+    "kNew": "K(neu)"
   }
 }

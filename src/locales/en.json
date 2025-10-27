@@ -79,24 +79,28 @@
     "contributionPerMonth": "Contribution per month",
     "contributionPerYear": "Contribution per year",
     "years": "years",
-    "methodIntro": "We calculate month by month: first the interest on the current balance, then we add your contribution. If an interest tax applies, we subtract it right away. If you choose a dynamic increase, your contribution rises each year.",
-    "monthlyRate": "Monthly interest",
-    "monthlyRateDesc": "As a simple approximation, we take: annual rate divided by 12.",
-    "interestGain": "Interest gain",
-    "interestGainDesc": "The monthly interest gain is based on your current balance. If tax applies, we subtract a portion immediately.",
+    "methodIntro": "This is how you calculate the values in the ETF calculator.",
+    "monthlyRate": "Monthly interest rate",
+    "monthlyRateDesc": "To calculate the monthly interest rate, divide the annual interest rate by 12.",
+    "interestGain": "Monthly profit from interest",
+    "interestGainDesc": "Your monthly profit from interest is calculated using your current account balance:",
     "examplePrefix": "Example: With",
     "exampleMiddle": "balance, that’s about",
+    "step": "Step",
     "exampleSuffix": "of that per month.",
     "monthStep": "Monthly step",
-    "monthStepDesc": "We add in order: first the interest gain, then your contribution. For yearly contributions, it occurs only in month 12.",
-    "dynamic": "Dynamic (contribution increases yearly)",
-    "dynamicDesc": "The contribution increases each year by the specified percentage.",
+    "monthStepDesc": "Your new account balance is the sum of the old account balance and the interest profit:",
+    "dynamic": "New deposit & monthly impact",
+    "dynamicDesc": "In the ETF calculator, you can choose different settings, e.g. whether taxes are deducted directly or how often you want to make deposits. All of this affects the final results.",
     "year": "Year",
     "result": "Result",
     "totalContributions": "Total contributions",
     "interestGainShort": "Interest (gain)",
     "totalBalance": "Total balance",
-    "roundingNote": "Values are rounded to 2 decimal places."
+    "roundingNote": "Values are rounded to 2 decimal places.",
+    "inputsSummaryIntro": "For the values you entered in the ETF calculator, that would be:",
+    "approxValueNote": "(This is an approximate value.)"
+
   },
   "labels": {
     "startCapital": "Initial capital",
@@ -108,15 +112,16 @@
     "dynamicShort": "Dynamic"
   },
   "calc": {
-    "monthlyRateSimple": "Monthly interest",
-    "annualRate": "Annual rate",
-    "interestGain": "Interest gain",
+    "monthlyRateSimple": "monthly interest rate",
+    "annualRate": "annual interest rate",
+    "interestGain": "monthly profit from interest",
     "balance": "Balance",
-    "monthlyRate": "Monthly interest",
-    "newBalance": "New balance",
-    "oldBalance": "Old balance",
+    "monthlyRate": "monthly interest rate",
+    "newBalance": "new account balance",
+    "oldBalance": "old account balance",
     "contribution": "Contribution",
     "nextYearContribution": "Next year’s contribution",
-    "currentContribution": "Current contribution"
+    "currentContribution": "Current contribution",
+    "kNew": "K(new)"
   }
 }
