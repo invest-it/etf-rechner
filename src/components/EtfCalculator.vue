@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, watch, nextTick } from "vue";
 import EasyForm from "./EasyForm.vue";
-import EChart from "./EChart.vue";
+import EChart from "./Echart.vue";
 import DataTable from "./DataTable.vue";
 import SummaryText from "./SummaryText.vue";
 import Dropdown from "./Dropdown.vue";
