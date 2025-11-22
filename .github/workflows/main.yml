@@ -39,5 +39,5 @@ jobs:
       - name: Deploy image via streaming git:load-image
         run: |
           docker image save app:${{ github.sha }} | \
-            ssh -o StrictHostKeyChecking=no etf-cicd@195.201.239.228 \
+            ssh -o StrictHostKeyChecking=no dokku@195.201.239.228 \
               git:load-image etf-staging app:${{ github.sha }}
