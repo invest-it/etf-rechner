@@ -41,4 +41,4 @@ jobs:
         run: |
           docker image save local:${{ github.sha }} | \
             ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no dokku@195.201.239.228 \
-              git:load-image etf-staging local:${{ github.sha }}
+              git:load-image investit-etf-rechner local:${{ github.sha }}
