@@ -1,14 +1,15 @@
-name: deploy
+name: Deploy to staging
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
 
-jobs:
   deploy:
+    if: github.event.pull_request.base.ref == 'main' 
     runs-on: ubuntu-latest
-    environment: production
+    environment: staging
     
     steps:
       - name: Checkout
@@ -28,7 +29,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/arm64/v8
           push: false
-          load: true        # IMPORTANT: we need the image loaded locally to run docker save
+          load: true
           tags: local:${{ github.sha }}
 
       - name: Prepare SSH key
@@ -41,4 +42,4 @@ jobs:
         run: |
           docker image save local:${{ github.sha }} | \
             ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no dokku@195.201.239.228 \
-              git:load-image investit-etf-rechner local:${{ github.sha }}
+              git:load-image investit-etf-rechner-staging local:${{ github.sha }}
