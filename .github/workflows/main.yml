@@ -8,7 +8,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment: production
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -28,7 +29,7 @@ jobs:
           platforms: linux/amd64
           push: false
           load: true        # IMPORTANT: we need the image loaded locally to run docker save
-          tags: app:${{ github.sha }}
+          tags: local:${{ github.sha }}
 
       - name: Prepare SSH key
         run: |
