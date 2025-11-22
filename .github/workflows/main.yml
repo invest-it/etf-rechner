@@ -26,7 +26,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64
+          platforms: linux/arm64/v8
           push: false
           load: true        # IMPORTANT: we need the image loaded locally to run docker save
           tags: local:${{ github.sha }}
