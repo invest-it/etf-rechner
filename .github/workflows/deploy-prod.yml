@@ -6,7 +6,7 @@ on:
     types: [closed]
     branches: [main]
 jobs:
-  deploy:
+  deploy-prod:
     if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main')
     runs-on: ubuntu-latest
     environment: production
