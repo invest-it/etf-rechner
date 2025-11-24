@@ -9,18 +9,16 @@ const props = defineProps({
 });
 
 const html = computed(() =>
-    katex.renderToString(props.tex, {
-      throwOnError: false,
-      output: "html",
-      displayMode: !props.inline,
-    })
+  katex.renderToString(props.tex, {
+    throwOnError: false,
+    output: "html",
+    displayMode: !props.inline,
+  }),
 );
 </script>
 
 <template>
-  <div class="badge badge-accent text-black my-2 p-2  h-full block">
-    <span class="text-[14px]  break-words overflow-wrap" v-html="html"></span>
+  <div class="badge badge-accent text-black my-2 p-2 h-full block">
+    <span class="text-[14px] break-words overflow-wrap" v-html="html"></span>
   </div>
 </template>
-
-
