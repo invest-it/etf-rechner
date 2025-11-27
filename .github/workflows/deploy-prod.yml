@@ -2,9 +2,8 @@ name: Deploy to production
 
 on:
   workflow_dispatch:
-  pull_request:
-    types: [closed]
-    branches: [main]
+  pull: main
+
 jobs:
   deploy-prod:
     if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main')
