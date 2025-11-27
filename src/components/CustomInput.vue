@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount, computed } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t, locale } = useI18n();
@@ -35,7 +35,12 @@ const emit = defineEmits(["update:modelValue"]);
 const localStr = ref(props.modelValue ?? "");
 const selectedIndex = ref(-1);
 const isOpen = ref(false);
+const activeIndex = ref(0);
 const dropdownRef = ref(null);
+const listRef = ref(null);
+const buttonRef = ref(null);
+const optRefs = ref([]);
+const listboxId = "preset-listbox";
 
 watch(
   () => props.modelValue,
@@ -69,46 +74,104 @@ function applyPreset(idx) {
   selectedIndex.value = idx;
   localStr.value = String(opt.value);
   emit("update:modelValue", Number(opt.value));
+  closeDropdown();
+}
+
+function openDropdown() {
+  isOpen.value = true;
+  activeIndex.value = selectedIndex.value >= 0 ? selectedIndex.value : 0;
+  nextTick(() => {
+    listRef.value?.focus();
+    ensureVisible();
+  });
+}
+
+function closeDropdown() {
   isOpen.value = false;
+  nextTick(() => buttonRef.value?.focus());
 }
 
 function handleClickOutside(event) {
+  if (!isOpen.value) return;
   if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-    isOpen.value = false;
+    closeDropdown();
   }
 }
 
-onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
-});
-onBeforeUnmount(() => {
-  document.removeEventListener("click", handleClickOutside);
-});
+onMounted(() => document.addEventListener("mousedown", handleClickOutside));
+onBeforeUnmount(() => document.removeEventListener("mousedown", handleClickOutside));
 
 const fallbackKeys = ["msciWorld", "sp500", "dax"];
-
 const formatPercent = (v) => (Number.isFinite(v) ? v.toLocaleString(locale.value, { maximumFractionDigits: 1 }) : v);
 
 const viewOptions = computed(() =>
   props.options.map((opt, i) => {
     const key = opt.i18nKey || opt.key || (i < fallbackKeys.length ? fallbackKeys[i] : `preset${i}`);
-
     const name = t(`presets.${key}.name`, opt.header || "");
     const description = t(`presets.${key}.description`, opt.description || "");
-
-    const header = t("presets.header", {
-      name,
-      avg: formatPercent(opt.value),
-    });
-
-    return {
-      ...opt,
-      header,
-      description,
-      __i18nKey: key,
-    };
+    const header = t("presets.header", { name, avg: formatPercent(opt.value) });
+    return { ...opt, header, description, __i18nKey: key };
   }),
 );
+
+function onInputKeydown(e) {
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (!isOpen.value) openDropdown();
+  } else if (e.key === "Escape") {
+    e.preventDefault();
+    closeDropdown();
+  }
+}
+
+function onToggleKeydown(e) {
+  const k = e.key;
+  if (k === "Enter" || k === " " || k === "ArrowDown" || k === "ArrowUp") {
+    e.preventDefault();
+    isOpen.value ? closeDropdown() : openDropdown();
+  } else if (k === "Escape") {
+    e.preventDefault();
+    closeDropdown();
+  }
+}
+
+function onListKeydown(e) {
+  if (!isOpen.value) return;
+  const max = viewOptions.value.length - 1;
+  const k = e.key;
+
+  if (k === "ArrowDown") {
+    e.preventDefault();
+    activeIndex.value = Math.min(max, activeIndex.value + 1);
+    ensureVisible();
+  } else if (k === "ArrowUp") {
+    e.preventDefault();
+    activeIndex.value = Math.max(0, activeIndex.value - 1);
+    ensureVisible();
+  } else if (k === "Home") {
+    e.preventDefault();
+    activeIndex.value = 0;
+    ensureVisible();
+  } else if (k === "End") {
+    e.preventDefault();
+    activeIndex.value = max;
+    ensureVisible();
+  } else if (k === "Enter" || k === " ") {
+    e.preventDefault();
+    applyPreset(activeIndex.value);
+  } else if (k === "Escape") {
+    e.preventDefault();
+    closeDropdown();
+  } else if (k === "Tab") {
+    // close and let focus move naturally
+    closeDropdown();
+  }
+}
+
+function ensureVisible() {
+  const itemBtn = optRefs.value[activeIndex.value];
+  itemBtn?.scrollIntoView?.({ block: "nearest" });
+}
 </script>
 
 <template>
@@ -117,7 +180,7 @@ const viewOptions = computed(() =>
       <span class="label-text">{{ label }}</span>
       <span>
         <div class="tooltip sm:tooltip-right" :data-tip="info">
-          <button type="button" class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full" aria-label="More info">
+          <button type="button" class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full" aria-label="Mehr Info">
             ?
           </button>
         </div>
@@ -132,27 +195,47 @@ const viewOptions = computed(() =>
         :value="localStr"
         required
         inputmode="decimal"
-        @input="onInput" />
+        :aria-expanded="isOpen.toString()"
+        aria-haspopup="listbox"
+        @input="onInput"
+        @keydown="onInputKeydown" />
 
-      <div class="dropdown dropdown-bottom dropdown-end md:dropdown-center lg:dropdown-start" :class="{ 'dropdown-open': isOpen }">
+      <div class="dropdown dropdown-bottom dropdown-end md:dropdown-center lg:dropdown-start">
         <button
+          ref="buttonRef"
           type="button"
           class="join-item text-black h-full w-12 bg-base-100 border [border-color:color-mix(in_oklab,#000_20%,#0000)] border-l-0 rounded-l-none rounded-r-md focus:outline-none focus:border-l-1 focus:ring-0 focus:border-primary"
           :aria-expanded="isOpen.toString()"
           aria-haspopup="listbox"
-          @click.stop="isOpen = !isOpen">
+          :aria-controls="isOpen ? listboxId : undefined"
+          @click.stop="isOpen ? closeDropdown() : openDropdown()"
+          @keydown="onToggleKeydown">
           ⌄
         </button>
 
-        <div class="card dropdown-content bg-base-100 rounded-box shadow-custom w-[280px]">
+        <div v-show="isOpen" class="card dropdown-content bg-base-100 rounded-box shadow-custom w-[280px]">
           <div class="card-body">
-            <ul role="listbox" class="flex flex-col gap-5">
+            <ul
+              :id="listboxId"
+              ref="listRef"
+              role="listbox"
+              class="flex flex-col gap-5 outline-none"
+              tabindex="0"
+              :aria-activedescendant="`opt-${activeIndex}`"
+              @keydown="onListKeydown">
               <li
                 v-for="(opt, i) in viewOptions"
+                :id="`opt-${i}`"
                 :key="opt.__i18nKey || opt.header || i"
-                class="cursor-pointer hover:bg-base-200 rounded p-2"
+                ref="optRefs"
                 role="option"
-                :aria-selected="selectedIndex === i"
+                :aria-selected="activeIndex === i"
+                class="cursor-pointer rounded p-2"
+                :class="{
+                  'bg-base-200': activeIndex === i,
+                  'hover:bg-base-200': activeIndex !== i,
+                }"
+                @mouseenter="activeIndex = i"
                 @click="applyPreset(i)">
                 <h3 class="text-sm font-semibold text-primary leading-snug whitespace-normal break-words">
                   {{ opt.header }}

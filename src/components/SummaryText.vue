@@ -25,7 +25,7 @@ const percent = (v) => (Number.isFinite(v) ? `${v.toLocaleString(locale.value, {
 
 const yearsLabel = (y) => (Number.isFinite(y) ? y.toLocaleString(locale.value) : "—");
 
-const highlight = (value) => `<span class="bg-accent text-primary px-1 rounded">${value}</span>`;
+const highlight = (value) => `<span class="bg-primary text-white px-1 rounded">${value}</span>`;
 
 const normalizeDepositType = (v) => {
   if (!v) return "monthly";
