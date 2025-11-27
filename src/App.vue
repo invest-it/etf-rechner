@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import Navbar from "./components/Navbar.vue";
 import Footer from "./components/Footer.vue";
 import EtfCalculator from "./components/EtfCalculator.vue";
@@ -9,8 +9,8 @@ import EtfCalculator from "./components/EtfCalculator.vue";
   <main class="min-h-screen px-4 sm:px-10 w-full pt-10 sm:pt-20 pb-12 2xl:max-w-3/4 mx-auto overflow-hidden">
     <div class="flex justify-center pb-10 sm:pb-20">
       <h1 class="text-4xl sm:text-5xl font-semibold overflow-hidden flex">
-        <span class="bg-accent text-primary rounded-md px-3 py-1">ETF</span>
-        <span class=" text-black py-1">-{{ $t("rechner") }}</span>
+        <span class="bg-primary text-white rounded-md px-3 py-1">ETF</span>
+        <span class="text-black py-1">-{{ $t("rechner") }}</span>
       </h1>
     </div>
     <EtfCalculator />

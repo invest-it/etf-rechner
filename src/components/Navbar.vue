@@ -8,11 +8,17 @@ const toggleLanguage = () => {
   locale.value = locale.value === "en" ? "de" : "en";
 };
 </script>
+
 <template>
-  <div class="navbar bg-base-100 shadow-custom h-[87px] px-10 flex justify-between">
-    <img :src="Logo" alt="Invest It" class="w-[166px]" />
-    <button class="ml-auto btn btn-sm bg-primary text-white" @click="toggleLanguage">
+  <nav class="navbar bg-base-100 shadow-custom h-[87px] px-10 flex justify-between" aria-label="Main navigation">
+    <a href="/" class="flex items-center">
+      <img :src="Logo" alt="Invest It" class="w-[166px]" />
+    </a>
+    <button
+      class="ml-auto btn btn-sm bg-primary text-white"
+      :aria-label="`Switch language to ${locale.value === 'en' ? 'German' : 'English'}`"
+      @click="toggleLanguage">
       {{ locale.toUpperCase() }}
     </button>
-  </div>
+  </nav>
 </template>
