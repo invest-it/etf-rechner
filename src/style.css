@@ -77,6 +77,10 @@
    }
 }
 
+p.summary{
+   line-height: 2;
+}
+
 .stat {
    &:not(:last-child) {
       @supports (color: color-mix(in lab, red, red)) {
