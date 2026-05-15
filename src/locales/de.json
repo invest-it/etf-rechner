@@ -27,6 +27,9 @@
     }
   },
   "tableInfo": {
+    "kicker": "Tabellenspalten",
+    "title": "So liest Du die Tabelle",
+    "description": "Die Tabelle zeigt Dir Jahr für Jahr, wie sich Einzahlungen, Gewinne und der gesamte Kontostand zusammensetzen.",
     "deposits": {
       "title": "Einzahlungen",
       "description": "Betrag, den du regelmäßig auf das Sparkonto überweist."

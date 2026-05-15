@@ -4,7 +4,6 @@ import EasyForm from "./EasyForm.vue";
 import EChart from "./Echart.vue";
 import DataTable from "./DataTable.vue";
 import SummaryText from "./SummaryText.vue";
-import Dropdown from "./Dropdown.vue";
 import Calculation from "./Calculation.vue";
 
 const chartData = ref([]);
@@ -130,6 +129,7 @@ watch(activeTab, async (newTab) => {
 });
 </script>
 <template>
+  <div class="space-y-4">
   <div class="flex flex-col xl:flex-row gap-x-8 gap-y-4 items-start h-full w-full">
     <div class="w-full mx-auto max-w-sm px-4 xl:px-0 xl:w-80">
       <EasyForm @submit="calculateGrowth" />
@@ -143,8 +143,8 @@ watch(activeTab, async (newTab) => {
             class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
             :class="[activeTab === 'Diagramm' ? 'text-white bg-primary' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
             @click.prevent="activeTab = 'Diagramm'">
-            <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M3 3h4v18H3zM10 10h4v11h-4zM17 4h4v17h-4z" />
+            <svg class="w-4 h-4 me-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19h16M6 15l4-4 3 3 5-7" />
             </svg>
             {{ $t("chart") }}
           </a>
@@ -199,20 +199,6 @@ watch(activeTab, async (newTab) => {
           :total-tax-paid="summaryData.totalTaxPaid"
           :deposit-type="summaryData.depositType"
           :dynamic-increase="inputValues.dynamicIncrease" />
-        <div
-          v-if="activeTab === 'Diagramm' && chartData.length"
-          role="status"
-          class="alert alert-info bg-info/10 text-base-content border-info/20 shadow-sm mt-4 rounded-xl py-3">
-          <svg class="h-5 w-5 shrink-0 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" />
-          </svg>
-          <span class="text-sm leading-relaxed">{{ $t("disclaimer.investmentAdvice") }}</span>
-        </div>
-
         <DataTable v-if="activeTab === 'Tabelle' && tableData.length" ref="tableRef" :data="tableData" />
         <Calculation
           v-if="activeTab === 'Rechenweg'"
@@ -225,15 +211,28 @@ watch(activeTab, async (newTab) => {
           :monthly-rate="monthlyRateValue" />
       </div>
     </div>
-    <div class="sm:hidden w-full flex justify-between h-9">
-      <Dropdown v-show="activeTab === 'Tabelle'" position="dropdown-top dropdown-start" />
+    <div class="sm:hidden w-full flex justify-end h-9">
       <button
         v-show="activeTab === 'Tabelle' && tableRef?.canScroll && !tableRef?.scrolledLeft"
         type="button"
-        class="px-3 py-1.5 text-sm rounded-full shadow bg-primary text-white"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-full shadow bg-primary text-white"
         @click="tableRef?.scrollRight()">
-        {{ $t("swap") }} →
+        {{ $t("swap") }}
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
+        </svg>
       </button>
+    </div>
+  </div>
+    <div role="status" class="alert alert-info bg-info/10 text-base-content border-info/20 shadow-sm rounded-xl py-3 md:mr-[140px]">
+      <svg class="h-5 w-5 shrink-0 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" />
+      </svg>
+      <span class="text-sm leading-relaxed">{{ $t("disclaimer.investmentAdvice") }}</span>
     </div>
   </div>
 </template>
