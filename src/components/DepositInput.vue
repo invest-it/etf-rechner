@@ -1,37 +1,57 @@
-<script setup>
-import { ref, watch, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
+<script lang="ts" setup>
+import {
+  ref,
+  watch,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  nextTick,
+} from "vue";
 import { useI18n } from "vue-i18n";
+import { DepositType } from "../types/deposit-type";
 
 const { t } = useI18n();
 
-const props = defineProps({
-  amount: { type: [Number, String], default: 150 },
-  depositType: { type: String, default: "monatlich" },
-  label: { type: String },
-  info: { type: String },
-  options: { type: Array, default: () => ["monatlich", "jährlich"] },
-  disabled: { type: Boolean, default: false },
+interface DepositInputProps {
+  amount?: number | string;
+  depositType?: DepositType;
+  label: string;
+  info: string;
+  options?: DepositType[];
+  disabled?: boolean;
+}
+
+const props = withDefaults(defineProps<DepositInputProps>(), {
+  amount: 150,
+  depositType: DepositType.Monthly,
+  options: () => [DepositType.Monthly, DepositType.Yearly],
+  disabled: false,
 });
 
-const emit = defineEmits(["update:amount", "update:depositType", "change"]);
+const emit = defineEmits<{
+  "update:amount": [value: number | string];
+  "update:depositType": [value: DepositType];
+  change: [payload: { amount: number | string; depositType: DepositType }];
+}>();
 
 const open = ref(false);
 const localStr = ref(String(props.amount ?? 150));
-const selected = ref(props.options.includes(props.depositType) ? props.depositType : "monatlich");
+const selected = ref<DepositType>(
+  props.options.includes(props.depositType)
+    ? props.depositType
+    : DepositType.Monthly,
+);
 
-const buttonRef = ref(null);
-const listRef = ref(null);
-const optRefs = ref([]);
+const buttonRef = ref<HTMLButtonElement | null>(null);
+const listRef = ref<HTMLUListElement | null>(null);
+const optRefs = ref<HTMLLIElement[]>([]);
 const activeIndex = ref(0);
 const listboxId = "deposit-type-listbox";
 
-const norm = (v) => {
-  const s = String(v || "").toLowerCase();
-  if (s.includes("jähr") || s.includes("year")) return "yearly";
-  return "monthly";
-};
-const labelOf = (v) => t(`depositType.${norm(v)}`);
-const infoText = computed(() => t(`info.${norm(selected.value)}`, {}, { default: props.info }));
+const labelOf = (v: DepositType) => t(`depositType.${v}`);
+const infoText = computed(() =>
+  t(`info.${selected.value}`, {}, { default: props.info }),
+);
 
 watch(
   () => props.amount,
@@ -62,9 +82,11 @@ watch(selected, (v) => {
   emit("change", { amount: Number(localStr.value), depositType: v });
 });
 
-function toggleOpen(force) {
+function toggleOpen(force: unknown) {
   if (props.disabled) return;
   const next = typeof force === "boolean" ? force : !open.value;
+  console.log(next);
+  console.log(force);
   if (next === open.value) return;
   open.value = next;
 
@@ -80,17 +102,17 @@ function toggleOpen(force) {
   }
 }
 
-function select(opt) {
+function select(opt: DepositType) {
   if (props.disabled) return;
   selected.value = opt;
   toggleOpen(false);
 }
 
-function onInput(e) {
-  localStr.value = e.target.value;
+function onInput(e: Event) {
+  localStr.value = (e.target as HTMLInputElement).value;
 }
 
-function onButtonKeydown(e) {
+function onButtonKeydown(e: KeyboardEvent) {
   if (props.disabled) return;
   const k = e.key;
   if (k === "Enter" || k === " ") {
@@ -108,7 +130,7 @@ function onButtonKeydown(e) {
   }
 }
 
-function onListKeydown(e) {
+function onListKeydown(e: KeyboardEvent) {
   if (!open.value) return;
   const k = e.key;
   const max = props.options.length - 1;
@@ -147,28 +169,36 @@ function ensureVisible() {
   el?.scrollIntoView({ block: "nearest" });
 }
 
-function onDocClick(ev) {
+function onDocClick(ev: MouseEvent) {
   if (!open.value) return;
-  const target = ev.target;
-  if (buttonRef.value && !buttonRef.value.contains(target) && listRef.value && !listRef.value.contains(target)) {
+  const target = ev.target as HTMLInputElement;
+  if (
+    buttonRef.value &&
+    !buttonRef.value.contains(target) &&
+    listRef.value &&
+    !listRef.value.contains(target)
+  ) {
     toggleOpen(false);
   }
 }
-onMounted(() => document.addEventListener("mousedown", onDocClick));
-onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
+onMounted(() => document.addEventListener("click", onDocClick));
+onBeforeUnmount(() => document.removeEventListener("click", onDocClick));
 </script>
 
 <template>
   <div class="form-control py-1 w-full">
     <label v-if="label" class="label pb-1 w-full">
-      <span class="label-text" :class="{ 'opacity-60': disabled }">{{ label }}</span>
+      <span class="label-text" :class="{ 'opacity-60': disabled }">{{
+        label
+      }}</span>
       <span>
         <div class="tooltip sm:tooltip-right" :data-tip="infoText">
           <button
             type="button"
             class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full"
             :disabled="disabled"
-            :aria-disabled="disabled ? 'true' : 'false'">
+            :aria-disabled="disabled ? 'true' : 'false'"
+          >
             ?
           </button>
         </div>
@@ -184,9 +214,10 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
         required
         inputmode="decimal"
         :disabled="disabled"
-        @input="onInput" />
+        @input="onInput"
+      />
 
-      <div class="dropdown dropdown-end sm:dropdown-start">
+      <div :class="['dropdown dropdown-end sm:dropdown-start', { 'dropdown-open': !disabled && open }]">
         <button
           ref="buttonRef"
           type="button"
@@ -194,10 +225,11 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
           :disabled="disabled"
           :aria-disabled="disabled ? 'true' : 'false'"
           :aria-haspopup="'listbox'"
-          :aria-expanded="(!disabled && open).toString()"
+          :aria-expanded="!disabled && open"
           :aria-controls="open ? listboxId : undefined"
-          @click="toggleOpen()"
-          @keydown="onButtonKeydown">
+          @click="toggleOpen"
+          @keydown="onButtonKeydown"
+        >
           {{ labelOf(selected) }}
           <span class="ml-2">⌄</span>
         </button>
@@ -210,7 +242,8 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
           role="listbox"
           tabindex="0"
           :aria-activedescendant="`opt-${activeIndex}`"
-          @keydown="onListKeydown">
+          @keydown="onListKeydown"
+        >
           <li
             v-for="(opt, i) in options"
             :id="`opt-${i}`"
@@ -224,7 +257,8 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
               'hover:bg-base-200': i !== activeIndex,
             }"
             @mouseenter="activeIndex = i"
-            @click="select(opt)">
+            @click="select(opt)"
+          >
             <span>{{ labelOf(opt) }}</span>
             <span v-if="selected === opt">✓</span>
           </li>

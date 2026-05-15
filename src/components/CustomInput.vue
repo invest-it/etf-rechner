@@ -1,5 +1,12 @@
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
+import {
+  ref,
+  watch,
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  nextTick,
+} from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t, locale } = useI18n();
@@ -13,17 +20,20 @@ const props = defineProps({
     default: () => [
       {
         header: "MSCI World (durchschnittlich 6,3%)",
-        description: "Breit angelegter Index entwickelter Märkte (Europa, Amerika, Asien).",
+        description:
+          "Breit angelegter Index entwickelter Märkte (Europa, Amerika, Asien).",
         value: 6.3,
       },
       {
         header: "S&P 500 (durchschnittlich 8,1%)",
-        description: "Abbild der Wertentwicklung von ca. 500 großen US-Unternehmen.",
+        description:
+          "Abbild der Wertentwicklung von ca. 500 großen US-Unternehmen.",
         value: 8.1,
       },
       {
         header: "DAX (durchschnittlich 7%)",
-        description: "Index der 40 größten und liquidesten deutschen Unternehmen.",
+        description:
+          "Index der 40 größten und liquidesten deutschen Unternehmen.",
         value: 7.0,
       },
     ],
@@ -98,15 +108,23 @@ function handleClickOutside(event) {
   }
 }
 
-onMounted(() => document.addEventListener("mousedown", handleClickOutside));
-onBeforeUnmount(() => document.removeEventListener("mousedown", handleClickOutside));
+onMounted(() => document.addEventListener("click", handleClickOutside));
+onBeforeUnmount(() =>
+  document.removeEventListener("click", handleClickOutside),
+);
 
 const fallbackKeys = ["msciWorld", "sp500", "dax"];
-const formatPercent = (v) => (Number.isFinite(v) ? v.toLocaleString(locale.value, { maximumFractionDigits: 1 }) : v);
+const formatPercent = (v) =>
+  Number.isFinite(v)
+    ? v.toLocaleString(locale.value, { maximumFractionDigits: 1 })
+    : v;
 
 const viewOptions = computed(() =>
   props.options.map((opt, i) => {
-    const key = opt.i18nKey || opt.key || (i < fallbackKeys.length ? fallbackKeys[i] : `preset${i}`);
+    const key =
+      opt.i18nKey ||
+      opt.key ||
+      (i < fallbackKeys.length ? fallbackKeys[i] : `preset${i}`);
     const name = t(`presets.${key}.name`, opt.header || "");
     const description = t(`presets.${key}.description`, opt.description || "");
     const header = t("presets.header", { name, avg: formatPercent(opt.value) });
@@ -128,7 +146,7 @@ function onToggleKeydown(e) {
   const k = e.key;
   if (k === "Enter" || k === " " || k === "ArrowDown" || k === "ArrowUp") {
     e.preventDefault();
-    isOpen.value ? closeDropdown() : openDropdown();
+    (isOpen.value ? closeDropdown : openDropdown).call();
   } else if (k === "Escape") {
     e.preventDefault();
     closeDropdown();
@@ -180,7 +198,11 @@ function ensureVisible() {
       <span class="label-text">{{ label }}</span>
       <span>
         <div class="tooltip sm:tooltip-right" :data-tip="info">
-          <button type="button" class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full" aria-label="Mehr Info">
+          <button
+            type="button"
+            class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full"
+            aria-label="Mehr Info"
+          >
             ?
           </button>
         </div>
@@ -198,9 +220,12 @@ function ensureVisible() {
         :aria-expanded="isOpen.toString()"
         aria-haspopup="listbox"
         @input="onInput"
-        @keydown="onInputKeydown" />
+        @keydown="onInputKeydown"
+      />
 
-      <div class="dropdown dropdown-bottom dropdown-end md:dropdown-center lg:dropdown-start">
+      <div
+        :class="['dropdown dropdown-bottom dropdown-end md:dropdown-center lg:dropdown-start', { 'dropdown-open': isOpen }]"
+      >
         <button
           ref="buttonRef"
           type="button"
@@ -209,11 +234,15 @@ function ensureVisible() {
           aria-haspopup="listbox"
           :aria-controls="isOpen ? listboxId : undefined"
           @click.stop="isOpen ? closeDropdown() : openDropdown()"
-          @keydown="onToggleKeydown">
+          @keydown="onToggleKeydown"
+        >
           ⌄
         </button>
 
-        <div v-show="isOpen" class="card dropdown-content bg-base-100 rounded-box shadow-custom w-[280px]">
+        <div
+          v-show="isOpen"
+          class="card dropdown-content bg-base-100 rounded-box shadow-custom w-[280px]"
+        >
           <div class="card-body">
             <ul
               :id="listboxId"
@@ -222,7 +251,8 @@ function ensureVisible() {
               class="flex flex-col gap-5 outline-none"
               tabindex="0"
               :aria-activedescendant="`opt-${activeIndex}`"
-              @keydown="onListKeydown">
+              @keydown="onListKeydown"
+            >
               <li
                 v-for="(opt, i) in viewOptions"
                 :id="`opt-${i}`"
@@ -236,11 +266,17 @@ function ensureVisible() {
                   'hover:bg-base-200': activeIndex !== i,
                 }"
                 @mouseenter="activeIndex = i"
-                @click="applyPreset(i)">
-                <h3 class="text-sm font-semibold text-primary leading-snug whitespace-normal break-words">
+                @click="applyPreset(i)"
+              >
+                <h3
+                  class="text-sm font-semibold text-primary leading-snug whitespace-normal break-words"
+                >
                   {{ opt.header }}
                 </h3>
-                <p v-if="opt.description" class="text-xs text-black mt-1 whitespace-normal break-words">
+                <p
+                  v-if="opt.description"
+                  class="text-xs text-black mt-1 whitespace-normal break-words"
+                >
                   {{ opt.description }}
                 </p>
               </li>

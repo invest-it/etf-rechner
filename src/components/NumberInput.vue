@@ -29,7 +29,11 @@ const emit = defineEmits(["update:modelValue"]);
       </span>
       <span>
         <div class="tooltip sm:tooltip-right" :data-tip="info">
-          <button class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full">?</button>
+          <button
+            class="bg-primary w-[16px] h-[16px] font-light text-xs text-white rounded-full"
+          >
+            ?
+          </button>
         </div>
       </span>
     </label>
@@ -51,6 +55,7 @@ const emit = defineEmits(["update:modelValue"]);
           const v = $event.target.value;
           $emit('update:modelValue', v === '' ? null : Number(v));
         }
-      " />
+      "
+    />
   </div>
 </template>

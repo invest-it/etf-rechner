@@ -1,25 +1,30 @@
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, watch, nextTick } from "vue";
 import EasyForm from "./EasyForm.vue";
-import EChart from "./Echart.vue";
-import DataTable from "./DataTable.vue";
+import EChart, { type EChartProps } from "./Echart.vue";
+import DataTable, { type TableRow } from "./DataTable.vue";
 import SummaryText from "./SummaryText.vue";
 import Dropdown from "./Dropdown.vue";
 import Calculation from "./Calculation.vue";
+import { DepositType } from "../types/deposit-type";
+import {
+  calculateGrowthFunction,
+  type SimParams,
+} from "../calculations/growth";
 
-const chartData = ref([]);
-const tableData = ref([]);
+const chartData = ref<EChartProps["data"]>([]);
+const tableData = ref<TableRow[]>([]);
 const activeTab = ref("Diagramm");
-const chartRef = ref(null);
-const tableRef = ref(null);
+const chartRef = ref<InstanceType<typeof EChart> | null>(null);
+const tableRef = ref<InstanceType<typeof DataTable> | null>(null);
 
-const defaultForm = {
+const defaultForm: SimParams = {
   capital: 2000,
-  monthly: 150,
-  returnRate: 3,
+  monthlyAmount: 150,
+  annualRate: 3,
   duration: 10,
   dynamicIncrease: 0,
-  depositType: "monatlich",
+  depositType: DepositType.Monthly,
   tax: 0,
 };
 
@@ -27,96 +32,60 @@ const inputValues = ref({ ...defaultForm });
 const monthlyRateValue = ref(0);
 const summaryData = ref({
   initialDeposit: defaultForm.capital,
-  monthlyContribution: defaultForm.monthly,
-  annualReturnPercent: defaultForm.returnRate,
+  monthlyContribution: defaultForm.monthlyAmount,
+  annualReturnPercent: defaultForm.annualRate,
   years: defaultForm.duration,
   totalBalance: 0,
   totalContributions: 0,
   totalGain: 0,
+  taxPercent: 0,
+  totalTaxPaid: 0,
   depositType: defaultForm.depositType,
 });
 
-function calculateGrowth({ capital, monthly, returnRate, duration, depositType, dynamicIncrease, tax }) {
-  inputValues.value = { capital, monthly, returnRate, duration, depositType, dynamicIncrease, tax };
+function updateCalculation(formData: SimParams) {
+  inputValues.value = formData;
 
-  const monthlyRate = Math.pow(1 + returnRate / 100, 1 / 12) - 1;
-  monthlyRateValue.value = monthlyRate;
-  const months = duration * 12;
+  const result = calculateGrowthFunction(formData);
 
-  let total = capital;
-  let totalEinzahlung = capital;
-  let yearTax = 0;
-  const result = [];
-  let totalTax = 0;
+  monthlyRateValue.value = result.monthlyRate;
 
-  for (let month = 1; month <= months; month++) {
-    if (tax) {
-      const interest = total * monthlyRate;
-      const taxAmount = interest * (tax / 100);
-      total += interest - taxAmount;
-      yearTax += taxAmount;
-      totalTax += taxAmount;
-    } else {
-      total *= 1 + monthlyRate;
-    }
-
-    if (depositType === "monatlich") {
-      total += monthly;
-      totalEinzahlung += monthly;
-    } else if (depositType === "jährlich") {
-      if (month % 12 === 0) {
-        total += monthly;
-        totalEinzahlung += monthly;
-      }
-    }
-
-    if (month % 12 === 0) {
-      const year = month / 12;
-
-      const roundedTotal = parseFloat(total.toFixed(2));
-      const roundedEinzahlung = parseFloat(totalEinzahlung.toFixed(2));
-      const roundedZinsen = parseFloat((roundedTotal - roundedEinzahlung).toFixed(2));
-
-      result.push({
-        year,
-        einzahlung: roundedEinzahlung,
-        zinsen: roundedZinsen,
-        kontostand: roundedTotal,
-      });
-
-      if (dynamicIncrease && month % 12 === 0) {
-        monthly *= 1 + dynamicIncrease / 100;
-      }
-    }
-  }
-
-  chartData.value = result.map(({ year, einzahlung, zinsen }) => ({ year, einzahlung, zinsen }));
-  tableData.value = result.map(({ year, einzahlung, zinsen, kontostand }) => ({
+  chartData.value = result.points.map(({ year, einzahlung, zinsen }) => ({
     year,
-    einzahlung: einzahlung.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
-    zinsen: zinsen.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
-    kontostand: kontostand.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
+    einzahlung,
+    zinsen,
   }));
+  tableData.value = result.points.map(
+    ({ year, einzahlung, zinsen, kontostand }) => ({
+      year,
+      einzahlung: einzahlung.toLocaleString("de-DE", {
+        minimumFractionDigits: 2,
+      }),
+      zinsen: zinsen.toLocaleString("de-DE", { minimumFractionDigits: 2 }),
+      kontostand: kontostand.toLocaleString("de-DE", {
+        minimumFractionDigits: 2,
+      }),
+    }),
+  );
 
-  const last = result[result.length - 1];
-  if (last) {
+  if (result.final) {
     summaryData.value = {
-      initialDeposit: capital,
-      monthlyContribution: inputValues.value.monthly,
-      annualReturnPercent: returnRate,
-      years: duration,
-      totalBalance: last.kontostand,
-      totalContributions: last.einzahlung,
-      totalGain: last.zinsen,
-      depositType,
-      taxPercent: tax,
-      totalTaxPaid: parseFloat(totalTax.toFixed(2)),
+      initialDeposit: formData.capital,
+      monthlyContribution: inputValues.value.monthlyAmount,
+      annualReturnPercent: formData.annualRate,
+      years: formData.duration,
+      totalBalance: result.final.kontostand,
+      totalContributions: result.final.einzahlung,
+      totalGain: result.final.zinsen,
+      depositType: formData.depositType,
+      taxPercent: formData.tax,
+      totalTaxPaid: parseFloat(result.totalTax.toFixed(2)),
     };
   }
 }
 
 onMounted(() => {
-  calculateGrowth(defaultForm);
+  updateCalculation(defaultForm);
 });
 
 watch(activeTab, async (newTab) => {
@@ -130,19 +99,28 @@ watch(activeTab, async (newTab) => {
 });
 </script>
 <template>
-  <div class="flex flex-col xl:flex-row gap-x-8 gap-y-4 items-start h-full w-full">
+  <div
+    class="flex flex-col xl:flex-row gap-x-8 gap-y-4 items-start h-full w-full"
+  >
     <div class="w-full mx-auto max-w-sm px-4 xl:px-0 xl:w-80">
-      <EasyForm @submit="calculateGrowth" />
+      <EasyForm @submit="updateCalculation" />
     </div>
 
     <div class="flex flex-1 flex-col md:flex-row-reverse w-full gap-4">
-      <ul class="grid grid-cols-2 gap-2 mt-10 md:mt-0 text-sm font-medium text-black md:mb-0 md:flex md:flex-col">
+      <ul
+        class="grid grid-cols-2 gap-2 mt-10 md:mt-0 text-sm font-medium text-black md:mb-0 md:flex md:flex-col"
+      >
         <li class="col-span-1">
           <a
             href="#"
             class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
-            :class="[activeTab === 'Diagramm' ? 'text-white bg-primary' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
-            @click.prevent="activeTab = 'Diagramm'">
+            :class="[
+              activeTab === 'Diagramm'
+                ? 'text-white bg-primary'
+                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200',
+            ]"
+            @click.prevent="activeTab = 'Diagramm'"
+          >
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path d="M3 3h4v18H3zM10 10h4v11h-4zM17 4h4v17h-4z" />
             </svg>
@@ -154,8 +132,13 @@ watch(activeTab, async (newTab) => {
           <a
             href="#"
             class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
-            :class="[activeTab === 'Tabelle' ? 'text-white bg-primary' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
-            @click.prevent="activeTab = 'Tabelle'">
+            :class="[
+              activeTab === 'Tabelle'
+                ? 'text-white bg-primary'
+                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200',
+            ]"
+            @click.prevent="activeTab = 'Tabelle'"
+          >
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path d="M4 4h16v2H4zm0 5h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
             </svg>
@@ -167,8 +150,13 @@ watch(activeTab, async (newTab) => {
           <a
             href="#"
             class="inline-flex justify-center md:justify-start items-center px-4 py-3 rounded-lg shadow-custom w-full md:w-[124px]"
-            :class="[activeTab === 'Rechenweg' ? 'text-white bg-primary' : 'hover:text-gray-900 bg-base-100 hover:bg-base-200']"
-            @click.prevent="activeTab = 'Rechenweg'">
+            :class="[
+              activeTab === 'Rechenweg'
+                ? 'text-white bg-primary'
+                : 'hover:text-gray-900 bg-base-100 hover:bg-base-200',
+            ]"
+            @click.prevent="activeTab = 'Rechenweg'"
+          >
             <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 24 24">
               <path
                 d="M6 2C4.9 2 4 2.9 4 4v16c0
@@ -177,16 +165,21 @@ watch(activeTab, async (newTab) => {
           2h12v4H6V4zm0 6h12v10H6V10zm2
           2v2h2v-2H8zm4 0v2h2v-2h-2zm4
           0v2h2v-2h-2zM8 16v2h2v-2H8zm4
-          0v2h2v-2h-2z" />
+          0v2h2v-2h-2z"
+              />
             </svg>
             {{ $t("calculationMethod") }}
           </a>
         </li>
       </ul>
       <div class="flex-1 bg-base-100 rounded-xl xl:min-h-[700px]">
-        <EChart v-if="activeTab === 'Diagramm' && chartData.length" ref="chartRef" :data="chartData" />
+        <EChart
+          v-if="activeTab === 'Diagramm' && chartData?.length"
+          ref="chartRef"
+          :data="chartData"
+        />
         <SummaryText
-          v-if="activeTab === 'Diagramm' && chartData.length"
+          v-if="activeTab === 'Diagramm' && chartData?.length"
           class="mt-4"
           :initial-deposit="summaryData.initialDeposit"
           :monthly-contribution="summaryData.monthlyContribution"
@@ -198,9 +191,14 @@ watch(activeTab, async (newTab) => {
           :tax-percent="summaryData.taxPercent"
           :total-tax-paid="summaryData.totalTaxPaid"
           :deposit-type="summaryData.depositType"
-          :dynamic-increase="inputValues.dynamicIncrease" />
+          :dynamic-increase="inputValues.dynamicIncrease"
+        />
 
-        <DataTable v-if="activeTab === 'Tabelle' && tableData.length" ref="tableRef" :data="tableData" />
+        <DataTable
+          v-if="activeTab === 'Tabelle' && tableData.length"
+          ref="tableRef"
+          :data="tableData"
+        />
         <Calculation
           v-if="activeTab === 'Rechenweg'"
           :form="inputValues"
@@ -209,16 +207,25 @@ watch(activeTab, async (newTab) => {
             totalContributions: summaryData.totalContributions,
             totalGain: summaryData.totalGain,
           }"
-          :monthly-rate="monthlyRateValue" />
+          :monthly-rate="monthlyRateValue"
+        />
       </div>
     </div>
     <div class="sm:hidden w-full flex justify-between h-9">
-      <Dropdown v-show="activeTab === 'Tabelle'" position="dropdown-top dropdown-start" />
+      <Dropdown
+        v-show="activeTab === 'Tabelle'"
+        position="dropdown-top dropdown-start"
+      />
       <button
-        v-show="activeTab === 'Tabelle' && tableRef?.canScroll && !tableRef?.scrolledLeft"
+        v-show="
+          activeTab === 'Tabelle' &&
+          tableRef?.canScroll &&
+          !tableRef?.scrolledLeft
+        "
         type="button"
         class="px-3 py-1.5 text-sm rounded-full shadow bg-primary text-white"
-        @click="tableRef?.scrollRight()">
+        @click="tableRef?.scrollRight()"
+      >
         {{ $t("swap") }} →
       </button>
     </div>

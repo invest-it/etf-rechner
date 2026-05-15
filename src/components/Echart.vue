@@ -1,14 +1,17 @@
-<script setup>
+<script lang="ts" setup>
 import { ref, watch, onMounted, onUnmounted } from "vue";
 import * as echarts from "echarts";
 import { useI18n } from "vue-i18n";
 
-const props = defineProps({
-  data: Array, // Format: [{ year: '1', einzahlung: 5000, zinsen: 300 }]
-});
+export interface EChartProps {
+  data?: Array<{ year: number; einzahlung: number; zinsen: number }>;
+}
 
-const chartRef = ref(null);
-let chartInstance = null;
+const props = withDefaults(defineProps<EChartProps>(), { data: () => [] });
+
+const chartRef = ref<HTMLDivElement | null>(null);
+
+let chartInstance: echarts.ECharts | null = null;
 const { t, locale } = useI18n();
 
 const resizeChart = () => {
@@ -30,7 +33,7 @@ const drawChart = () => {
   const einzahlungen = props.data.map((item) => item.einzahlung);
   const zinsen = props.data.map((item) => item.zinsen);
 
-  const option = {
+  const option: echarts.EChartsOption = {
     tooltip: {
       trigger: "axis",
       backgroundColor: "#fff",
@@ -38,11 +41,14 @@ const drawChart = () => {
       confine: true,
       borderWidth: 1,
       textStyle: { color: "#000" },
-      formatter: (params) => {
+      formatter: (params: echarts.TooltipComponentFormatterCallbackParams) => {
+        if (!(params instanceof Array)) {
+          return "";
+        }
         const year = params[0].axisValue;
         const ein = params.find((p) => p.seriesId === "deposits")?.value || 0;
         const zin = params.find((p) => p.seriesId === "interest")?.value || 0;
-        const total = ein + zin;
+        const total = Number(ein) + Number(zin);
 
         return `
           <strong> ${year} ${t("years")} </strong><br/>
@@ -80,7 +86,7 @@ const drawChart = () => {
       axisLine: { lineStyle: { color: "#1e1e1e" } },
       splitLine: { lineStyle: { color: "#eee" } },
       axisLabel: {
-        formatter: (value) => `${value.toLocaleString("de-DE")} €`,
+        formatter: (value: number) => `${value.toLocaleString("de-DE")} €`,
       },
     },
     grid: {
@@ -166,5 +172,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="chartRef" class="rounded-xl pt-4 bg-white shadow-custom" style="width: 100%; height: 513px"></div>
+  <div
+    ref="chartRef"
+    class="rounded-xl pt-4 bg-white shadow-custom"
+    style="width: 100%; height: 513px"
+  ></div>
 </template>
