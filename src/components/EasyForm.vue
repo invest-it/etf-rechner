@@ -63,7 +63,7 @@ watch(isAdvanced, () => {
           :max="10000000"
           :min="0"
          />
-        <CustomInput v-model="returnRate" :label="`${t('input.expectedAnnualReturn')} (%)`" :info="t('info.expectedAnnualReturn')" :max="100" :min="-100"/>
+        <CustomInput v-model="returnRate" :label="`${t('input.expectedAnnualReturn')} (%)`" :info="t('info.expectedAnnualReturn')" :max="100" :min="0" /> <!--FIXME-->
         <NumberInput v-model="duration" :label="t('input.durationYears')" :info="t('info.durationYears')" :max="100" />
         <NumberInput v-model="tax" :label="`${t('input.tax')} (%)`" :info="t('info.tax')" :disabled="taxIsDisabled" />
         <div class="mb-2 flex items-center gap-2">
