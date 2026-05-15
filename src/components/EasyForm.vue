@@ -54,14 +54,17 @@ watch(isAdvanced, () => {
 
     <form @submit.prevent="handleSubmit">
       <fieldset class="fieldset w-full p-6">
-        <NumberInput v-model="capital" :label="`${t('input.startCapital')} (€)`" :info="t('info.startCapital')" />
+        <NumberInput v-model="capital" :label="`${t('input.startCapital')} (€)`" :info="t('info.startCapital')" :max="10000000000" />
         <DepositInput
           v-model:amount="monthly"
           v-model:deposit-type="depositType"
           :label="`${t('input.contribution')} (€)`"
-          :info="t('info.contribution')" />
-        <CustomInput v-model="returnRate" :label="`${t('input.expectedAnnualReturn')} (%)`" :info="t('info.expectedAnnualReturn')" />
-        <NumberInput v-model="duration" :label="t('input.durationYears')" :info="t('info.durationYears')" />
+          :info="t('info.contribution')"
+          :max="10000000"
+          :min="0"
+         />
+        <CustomInput v-model="returnRate" :label="`${t('input.expectedAnnualReturn')} (%)`" :info="t('info.expectedAnnualReturn')" :max="100" :min="0" /> <!--FIXME-->
+        <NumberInput v-model="duration" :label="t('input.durationYears')" :info="t('info.durationYears')" :max="100" />
         <NumberInput v-model="tax" :label="`${t('input.tax')} (%)`" :info="t('info.tax')" :disabled="taxIsDisabled" />
         <div class="mb-2 flex items-center gap-2">
           <input

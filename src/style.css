@@ -1,5 +1,55 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@font-face {
+   font-family: "DM Sans";
+   font-style: normal;
+   font-weight: 300;
+   font-display: swap;
+   src: url("/fonts/dm-sans/dm-sans-300.ttf") format("truetype");
+}
+
+@font-face {
+   font-family: "DM Sans";
+   font-style: normal;
+   font-weight: 400;
+   font-display: swap;
+   src: url("/fonts/dm-sans/dm-sans-400.ttf") format("truetype");
+}
+
+@font-face {
+   font-family: "DM Sans";
+   font-style: normal;
+   font-weight: 500;
+   font-display: swap;
+   src: url("/fonts/dm-sans/dm-sans-500.ttf") format("truetype");
+}
+
+@font-face {
+   font-family: "DM Sans";
+   font-style: normal;
+   font-weight: 600;
+   font-display: swap;
+   src: url("/fonts/dm-sans/dm-sans-600.ttf") format("truetype");
+}
+
+@font-face {
+   font-family: "DM Sans";
+   font-style: normal;
+   font-weight: 700;
+   font-display: swap;
+   src: url("/fonts/dm-sans/dm-sans-700.ttf") format("truetype");
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea {
+   font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
 @plugin "daisyui/theme" {
    name: "invest";
    default: false;

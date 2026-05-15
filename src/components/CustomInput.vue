@@ -8,6 +8,14 @@ const props = defineProps({
   modelValue: { type: [Number, String], default: null },
   label: { type: String, default: "" },
   info: { type: String, default: "info" },
+  max: {
+    type: Number,
+    default: Infinity,
+  },
+  min: {
+    type: Number,
+    default: -Infinity,
+  },
   options: {
     type: Array,
     default: () => [
@@ -193,6 +201,8 @@ function ensureVisible() {
         class="input join-item input-bordered focus:outline-none font-light focus:ring-0 w-full focus:border-primary no-spinner text-[16px] sm:text-[14px]"
         step="0.1"
         :value="localStr"
+        :max="max"
+        :min="min"
         required
         inputmode="decimal"
         :aria-expanded="isOpen.toString()"
@@ -204,13 +214,21 @@ function ensureVisible() {
         <button
           ref="buttonRef"
           type="button"
-          class="join-item text-black h-full w-12 bg-base-100 border [border-color:color-mix(in_oklab,#000_20%,#0000)] border-l-0 rounded-l-none rounded-r-md focus:outline-none focus:border-l-1 focus:ring-0 focus:border-primary"
+          class="join-item inline-flex items-center justify-center text-black h-full w-12 bg-base-100 border [border-color:color-mix(in_oklab,#000_20%,#0000)] border-l-0 rounded-l-none rounded-r-md focus:outline-none focus:border-l-1 focus:ring-0 focus:border-primary"
           :aria-expanded="isOpen.toString()"
           aria-haspopup="listbox"
           :aria-controls="isOpen ? listboxId : undefined"
           @click.stop="isOpen ? closeDropdown() : openDropdown()"
           @keydown="onToggleKeydown">
-          ⌄
+          <svg
+            class="h-4 w-4 shrink-0 transition-transform"
+            :class="{ 'rotate-180': isOpen }"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6" />
+          </svg>
         </button>
 
         <div v-show="isOpen" class="card dropdown-content bg-base-100 rounded-box shadow-custom w-[280px]">

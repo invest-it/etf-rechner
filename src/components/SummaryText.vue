@@ -80,7 +80,7 @@ const summaryText = computed(() => {
 <template>
   <div class="hero bg-base-100 rounded-xl shadow-custom mt-5 min-h-[172px]">
     <div class="max-w-3xl px-6">
-      <p class="py-6 summary" v-html="summaryText"></p>
+      <p class="py-6 leading-8" v-html="summaryText"></p>
     </div>
   </div>
 </template>

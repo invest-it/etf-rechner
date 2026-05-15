@@ -11,6 +11,9 @@
   "calculate": "Calculate",
   "swap": "Swap",
   "calculationMethod": "Method",
+  "disclaimer": {
+    "investmentAdvice": "This calculator is for general information only and does not constitute investment advice."
+  },
   "summary": {
     "base": "In this calculation you initially deposited {initialDeposit} into your savings account. {depositSentence} If the annual return were {annualReturnPercent}, after {years} years you would have a total of {totalBalance} in your savings account. Of this, {totalContributions} would be your deposits and {totalGain} the profit.",
     "deposit": {
@@ -24,6 +27,9 @@
     }
   },
   "tableInfo": {
+    "kicker": "Table columns",
+    "title": "How to read the table",
+    "description": "The table shows year by year how deposits, gains, and the total balance add up.",
     "deposits": {
       "title": "Deposits",
       "description": "Amount you contribute in each year in addition to your initial capital."

@@ -166,5 +166,5 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="chartRef" class="rounded-xl pt-4 bg-white shadow-custom" style="width: 100%; height: 513px"></div>
+  <div ref="chartRef" class="rounded-xl pt-4 bg-white shadow-custom" style="width: 100%; height: 500px"></div>
 </template>

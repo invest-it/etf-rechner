@@ -11,6 +11,14 @@ const props = defineProps({
   info: { type: String },
   options: { type: Array, default: () => ["monatlich", "jährlich"] },
   disabled: { type: Boolean, default: false },
+  max: {
+    type: Number,
+    default: Infinity,
+  },
+  min: {
+    type: Number,
+    default: -Infinity,
+  },
 });
 
 const emit = defineEmits(["update:amount", "update:depositType", "change"]);
@@ -181,6 +189,8 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
         class="input join-item rounded-md input-bordered focus:outline-none font-light focus:ring-0 w-full focus:border-primary no-spinner text-[16px] sm:text-[14px]"
         step="0.1"
         :value="localStr"
+        :max="max"
+        :min="min"
         required
         inputmode="decimal"
         :disabled="disabled"
@@ -199,7 +209,15 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
           @click="toggleOpen()"
           @keydown="onButtonKeydown">
           {{ labelOf(selected) }}
-          <span class="ml-2">⌄</span>
+          <svg
+            class="ml-2 h-4 w-4 shrink-0 transition-transform"
+            :class="{ 'rotate-180': open }"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6" />
+          </svg>
         </button>
 
         <ul
@@ -226,7 +244,9 @@ onBeforeUnmount(() => document.removeEventListener("mousedown", onDocClick));
             @mouseenter="activeIndex = i"
             @click="select(opt)">
             <span>{{ labelOf(opt) }}</span>
-            <span v-if="selected === opt">✓</span>
+            <svg v-if="selected === opt" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 13 4 4L19 7" />
+            </svg>
           </li>
         </ul>
       </div>
