@@ -6,8 +6,8 @@ import EtfCalculator from "./components/EtfCalculator.vue";
 
 <template>
   <Navbar />
-  <main class="min-h-screen px-4 sm:px-10 w-full pt-10 sm:pt-20 pb-12 2xl:max-w-3/4 mx-auto overflow-hidden">
-    <div class="flex justify-center pb-10 sm:pb-20">
+  <main class="min-h-screen px-4 sm:px-10 w-full pt-10 sm:pt-20 lg:pt-10 pb-12 2xl:max-w-3/4 mx-auto overflow-hidden">
+    <div class="flex justify-center pb-10 sm:pb-20 lg:hidden">
       <h1 class="text-4xl sm:text-5xl font-semibold overflow-hidden flex">
         <span class="bg-primary text-white rounded-md px-3 py-1">ETF</span>
         <span class="text-black py-1">-{{ $t("rechner") }}</span>
