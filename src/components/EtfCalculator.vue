@@ -199,6 +199,19 @@ watch(activeTab, async (newTab) => {
           :total-tax-paid="summaryData.totalTaxPaid"
           :deposit-type="summaryData.depositType"
           :dynamic-increase="inputValues.dynamicIncrease" />
+        <div
+          v-if="activeTab === 'Diagramm' && chartData.length"
+          role="status"
+          class="alert alert-info bg-info/10 text-base-content border-info/20 shadow-sm mt-4 rounded-xl py-3">
+          <svg class="h-5 w-5 shrink-0 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" />
+          </svg>
+          <span class="text-sm leading-relaxed">{{ $t("disclaimer.investmentAdvice") }}</span>
+        </div>
 
         <DataTable v-if="activeTab === 'Tabelle' && tableData.length" ref="tableRef" :data="tableData" />
         <Calculation

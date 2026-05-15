@@ -11,6 +11,9 @@
   "calculate": "Berechnen",
   "swap": "Wische",
   "calculationMethod": "Methode",
+  "disclaimer": {
+    "investmentAdvice": "Dieser Rechner dient nur der allgemeinen Information und stellt keine Anlageberatung dar."
+  },
   "summary": {
     "base": "In dieser Berechnung hast Du am Anfang {initialDeposit} auf Dein Sparkonto eingezahlt. {depositSentence} Wenn der jährliche Gewinn {annualReturnPercent} wäre, hättest Du nach {years} Jahren insgesamt {totalBalance} auf dem Sparkonto. Davon wären {totalContributions} Deine gesamten Einzahlungen und {totalGain} der Gewinn.",
     "deposit": {
