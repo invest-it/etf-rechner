@@ -1,5 +1,7 @@
 <script setup>
 import Logo from "../assets/footerLogo.svg";
+
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -24,7 +26,7 @@ import Logo from "../assets/footerLogo.svg";
     </div>
 
     <div class="border-t border-base-300 mt-6 pt-4">
-      <p class="mx-auto font-light text-xs text-center">© 2025 Invest it e.V. | Alle Rechte vorbehalten.</p>
+      <p class="mx-auto font-light text-xs text-center">&copy; {{ currentYear }} Invest it e.V. | Alle Rechte vorbehalten.</p>
     </div>
   </footer>
 </template>
