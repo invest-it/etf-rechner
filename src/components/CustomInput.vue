@@ -8,6 +8,14 @@ const props = defineProps({
   modelValue: { type: [Number, String], default: null },
   label: { type: String, default: "" },
   info: { type: String, default: "info" },
+  max: {
+    type: Number,
+    default: Infinity,
+  },
+  min: {
+    type: Number,
+    default: -Infinity,
+  },
   options: {
     type: Array,
     default: () => [
@@ -193,6 +201,8 @@ function ensureVisible() {
         class="input join-item input-bordered focus:outline-none font-light focus:ring-0 w-full focus:border-primary no-spinner text-[16px] sm:text-[14px]"
         step="0.1"
         :value="localStr"
+        :max="max"
+        :min="min"
         required
         inputmode="decimal"
         :aria-expanded="isOpen.toString()"

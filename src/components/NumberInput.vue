@@ -16,6 +16,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  max: {
+    type: Number,
+    default: Infinity,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -38,6 +42,7 @@ const emit = defineEmits(["update:modelValue"]);
       inputmode="decimal"
       step="any"
       min="0"
+      :max="max"
       :disabled="disabled"
       required
       :value="modelValue ?? ''"
